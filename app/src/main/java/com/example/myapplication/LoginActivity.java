@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                 // the boolean variable turns to be true then
                 // only the user must be proceed to the activity2
                 if (isAllFieldsChecked) {
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    Intent i = new Intent(LoginActivity.this, ContactsListActivity.class);
                     startActivity(i);
                 }
             }
