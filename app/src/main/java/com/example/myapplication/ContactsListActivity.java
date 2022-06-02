@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -26,5 +27,9 @@ public class ContactsListActivity extends AppCompatActivity {
         MyAdapter myAdapter = new MyAdapter(this, s1, s2);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        ImageView myImage = findViewById(R.id.myImage);
+        myImage.setClipToOutline(true);
+
     }
 }

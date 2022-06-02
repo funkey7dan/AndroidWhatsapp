@@ -13,12 +13,14 @@
             android:layout_width="match_parent"
             android:layout_height="82dp">
 
+
             <ImageView
                 android:id="@+id/contactImage"
                 android:layout_width="81dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/rounded_corners"
                 android:src="@drawable/avatar"
+                android:clipToOutline="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             super(itemView);
             t1 = itemView.findViewById(R.id.contactName);
             t2 = itemView.findViewById(R.id.lastMessage);
+            ImageView iv = itemView.findViewById(R.id.contactImage);
+            iv.setClipToOutline(true);
 
         }
     }
