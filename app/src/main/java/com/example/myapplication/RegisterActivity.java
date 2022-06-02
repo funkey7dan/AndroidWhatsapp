@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -52,6 +53,10 @@ public class RegisterActivity extends AppCompatActivity {
                 // only the user must be proceed to the activity2
                 if (isAllFieldsChecked) {
                     Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
+                    Toast toast = Toast.makeText(getApplicationContext(),
+                            "User registered successfully",
+                            Toast.LENGTH_SHORT);
+                    toast.show();
                     startActivity(i);
                 }
             }
