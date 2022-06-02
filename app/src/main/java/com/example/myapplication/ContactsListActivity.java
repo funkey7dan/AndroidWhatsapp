@@ -5,7 +5,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -30,6 +34,18 @@ public class ContactsListActivity extends AppCompatActivity {
 
         ImageView myImage = findViewById(R.id.myImage);
         myImage.setClipToOutline(true);
+
+        FloatingActionButton fab = findViewById(R.id.floatingAddContact);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Add Contact",
+                        Toast.LENGTH_SHORT);
+
+                toast.show();
+            }
+        });
 
     }
 }
