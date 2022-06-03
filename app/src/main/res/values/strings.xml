@@ -9,4 +9,6 @@
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="register_now">Register now!</string>
     <string name="login_now">Login now!</string>
+    <string name="nickname">Nickname</string>
+    <string name="server">Server</string>
 </resources>

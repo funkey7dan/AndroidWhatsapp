@@ -39,13 +39,19 @@ public class ContactsListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(getApplicationContext(),
-                        "Add Contact",
-                        Toast.LENGTH_SHORT);
+                openDialog();
 
-                toast.show();
+//                Toast toast = Toast.makeText(getApplicationContext(),
+//                        "Add Contact",
+//                        Toast.LENGTH_SHORT);
+//
+//                toast.show();
             }
         });
+    }
 
+    public void openDialog() {
+        ContactsDialog contactsDialog = new ContactsDialog();
+        contactsDialog.show(getSupportFragmentManager(), "add contact dialog");
     }
 }
