@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,9 @@ public class ChatsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
+
+        ImageView imageView = findViewById(R.id.chatContactImage);
+        imageView.setClipToOutline(true);
 
         // Populate dummy messages in List, you can implement your code here
         ArrayList<MessageModel> messagesList = new ArrayList<>();

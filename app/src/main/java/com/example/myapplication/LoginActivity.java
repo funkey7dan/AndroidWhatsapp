@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // validations
         // register buttons with their proper IDs.
-        bRegister = findViewById(R.id.button);
+        bRegister = findViewById(R.id.sendButton);
 
         // register all the EditText fields with their IDs.
         etUsername = findViewById(R.id.inputUsername);
