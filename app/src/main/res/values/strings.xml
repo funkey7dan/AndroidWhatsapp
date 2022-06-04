@@ -11,4 +11,12 @@
     <string name="login_now">Login now!</string>
     <string name="nickname">Nickname</string>
     <string name="server">Server</string>
+    <string name="contacts_name">Contacts Name</string>
+    <string name="default_avatar">default avatar</string>
+    <string name="type_your_message">Type your message</string>
+    <string name="my_name">My Name</string>
+    <string name="floating_button">floating button</string>
+    <string name="last_message">Last Message</string>
+    <string name="contact_name">Contact Name</string>
+    <string name="_12_34">12:34</string>
 </resources>

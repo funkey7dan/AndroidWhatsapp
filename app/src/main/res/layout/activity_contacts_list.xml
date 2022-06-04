@@ -21,7 +21,7 @@
             android:id="@+id/contactsName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My Name"
+            android:text="@string/my_name"
             android:textColor="#000000"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +40,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.42000002" />
+            app:layout_constraintVertical_bias="0.42000002"
+            android:contentDescription="@string/default_avatar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,6 +72,7 @@
             app:layout_constraintEnd_toEndOf="@+id/contactsList"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.90999997"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            app:srcCompat="@android:drawable/ic_input_add"
+            android:contentDescription="@string/floating_button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

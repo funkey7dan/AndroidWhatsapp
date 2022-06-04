@@ -19,7 +19,7 @@ public class ContactsListActivity extends AppCompatActivity {
 
     String s1[] = {"Alice", "Bob", "Charlie", "Dan", "Eve", "Freddie", "Giovanni", "Herbert"};
     String s2[] = {"I'm alice", "I'm Bob", "I'm Charlie", "I'm Dan", "I'm Eve", "I'm Freddie", "I'm Giovanni", "I'm Herbert"};
-
+    String s3[] = {"12:44", "12:44", "12:44", "12:44", "12:44", "12:44", "12:44", "12:44"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ public class ContactsListActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.contactsList);
 
-        MyAdapter myAdapter = new MyAdapter(this, s1, s2);
+        MyAdapter myAdapter = new MyAdapter(this, s1, s2, s3);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

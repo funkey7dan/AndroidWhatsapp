@@ -21,7 +21,7 @@
             android:id="@+id/contactsName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Contacts Name"
+            android:text="@string/contacts_name"
             android:textColor="#000000"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +40,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.42000002" />
+            app:layout_constraintVertical_bias="0.42000002"
+            android:contentDescription="@string/default_avatar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,21 +76,25 @@
             android:id="@+id/edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Type your message"
+            android:hint="@string/type_your_message"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/sendButton"
-            app:layout_constraintStart_toStartOf="parent"></EditText>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:autofillHints="Type you message"
+            android:inputType="text" />
 
         <Button
             android:id="@+id/sendButton"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="50dp"
             android:layout_height="48dp"
-            style="?android:attr/borderlessButtonStyle"
             android:backgroundTint="#FFFFFF"
             android:shadowColor="#FFFFFF"
             app:icon="@drawable/ic_action_name"
             app:iconTint="#000000"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="0dp"></Button>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

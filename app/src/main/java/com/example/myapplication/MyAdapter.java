@@ -14,12 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    String data1[], data2[];
+    String data1[], data2[], data3[];
     Context context;
 
-    public MyAdapter(Context ct, String names[], String lastMessages[]) {
+    public MyAdapter(Context ct, String names[], String lastMessages[], String times[]) {
         this.data1 = names;
         this.data2 = lastMessages;
+        this.data3 = times;
         this.context = ct;
     }
 
@@ -35,6 +36,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.t1.setText(data1[position]);
         holder.t2.setText(data2[position]);
+        holder.t3.setText(data3[position]);
+
 
         holder.cl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,13 +56,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView t1, t2;
+        TextView t1, t2, t3;
         ConstraintLayout cl;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             t1 = itemView.findViewById(R.id.contactName);
             t2 = itemView.findViewById(R.id.lastMessage);
+            t3 = itemView.findViewById(R.id.lastDate);
             cl = itemView.findViewById(R.id.main_layout);
             ImageView iv = itemView.findViewById(R.id.contactImage);
             iv.setClipToOutline(true);
