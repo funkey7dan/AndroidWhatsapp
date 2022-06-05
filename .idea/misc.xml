@@ -3,22 +3,29 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProjects/AndroidWhatsapp/app/src/main/res/drawable/gradient_background.xml" value="0.1565" />
+        <entry key="..\:/AndroidStudioProjects/AndroidWhatsapp/app/src/main/res/drawable/ic_settings_5672.xml" value="0.1565" />
+        <entry key="..\:/AndroidStudioProjects/AndroidWhatsapp/app/src/main/res/layout/activity_chats.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/AndroidWhatsapp/app/src/main/res/layout/activity_contacts_list.xml" value="0.12" />
+        <entry key="..\:/AndroidStudioProjects/AndroidWhatsapp/app/src/main/res/layout/activity_login.xml" value="0.16666666666666666" />
+        <entry key="..\:/AndroidStudioProjects/AndroidWhatsapp/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/AndroidWhatsapp/app/src/main/res/layout/activity_register.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/AndroidWhatsapp/app/src/main/res/layout/contact_item.xml" value="0.1" />
+        <entry key="..\:/AndroidStudioProjects/AndroidWhatsapp/app/src/main/res/layout/item_text_in.xml" value="0.146875" />
+        <entry key="..\:/AndroidStudioProjects/AndroidWhatsapp/app/src/main/res/layout/item_text_out.xml" value="0.1" />
         <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/btn_bg.xml" value="0.1775" />
         <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/contact_border.xml" value="0.1285" />
         <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/gradient_background.xml" value="0.1805" />
         <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/input_bg.xml" value="0.1775" />
         <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/drawable/rounded_corners.xml" value="0.183" />
         <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/layout-v31/activity_contacts_list.xml" value="0.17552083333333332" />
-        <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_chats.xml" value="0.25" />
+        <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_chats.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_contacts_list.xml" value="0.22" />
         <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_login.xml" value="0.22" />
-        <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_main.xml" value="0.17552083333333332" />
         <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/layout/activity_register.xml" value="0.22" />
         <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/layout/contact_item.xml" value="0.22" />
         <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/layout/item_text_in.xml" value="0.22" />
         <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/layout/item_text_out.xml" value="0.5" />
-        <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/layout/layout_dialog_contact.xml" value="0.3333333333333333" />
-        <entry key="..\:/Users/tomer/AndroidStudioProjects/MyApplication/app/src/main/res/layout/temp_layout.xml" value="0.17552083333333332" />
       </map>
     </option>
   </component>
@@ -27,5 +34,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.3333333333333333" />
+      </ProjectState>
+    </option>
   </component>
 </project>
