@@ -10,17 +10,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.myapplication.entities.Contact;
+
+import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    String data1[], data2[], data3[];
+    List<Contact> contacts;
     Context context;
 
-    public MyAdapter(Context ct, String names[], String lastMessages[], String times[]) {
-        this.data1 = names;
-        this.data2 = lastMessages;
-        this.data3 = times;
+    public MyAdapter(Context ct, List<Contact> contacts) {
+        this.contacts = contacts;
         this.context = ct;
     }
 
@@ -51,7 +54,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public int getItemCount() {
-        return data1.length;
+        if (contacts == null) return 0;
+        return contacts.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

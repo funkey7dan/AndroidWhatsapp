@@ -9,6 +9,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.entities.Message;
+
 public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
     ArrayList<MessageModel> list;
@@ -29,9 +31,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             dateTV = itemView.findViewById(R.id.date_text);
         }
         void bind(int position) {
-            MessageModel messageModel = list.get(position);
-            messageTV.setText(messageModel.message);
-            dateTV.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(messageModel.messageTime));
+            Message messageModel = list.get(position);
+            messageTV.setText(messageModel.getContent());
+            dateTV.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(messageModel.getCreated()));
         }
     }
 
@@ -44,9 +46,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             dateTV = itemView.findViewById(R.id.date_text);
         }
         void bind(int position) {
-            MessageModel messageModel = list.get(position);
-            messageTV.setText(messageModel.message);
-            dateTV.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(messageModel.messageTime));
+            Message messageModel = list.get(position);
+            messageTV.setText(messageModel.getContent());
+            dateTV.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(messageModel.getCreated()));
         }
     }
 

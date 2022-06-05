@@ -1,38 +1,67 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
+
+import com.example.myapplication.API.AppDB;
+import com.example.myapplication.API.ContactDao;
+import com.example.myapplication.entities.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-public class ContactsListActivity extends AppCompatActivity {
 
+public class ContactsListActivity extends AppCompatActivity implements ContactsDialog.DialogListener {
+    DataSingleton data = DataSingleton.getInstance();
     RecyclerView recyclerView;
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
+    private AppDB db;
+    private ContactDao contactDao;
 
-    String s1[] = {"Alice", "Bob", "Charlie", "Dan", "Eve", "Freddie", "Giovanni", "Herbert"};
-    String s2[] = {"I'm alice", "I'm Bob", "I'm Charlie", "I'm Dan", "I'm Eve", "I'm Freddie", "I'm Giovanni", "I'm Herbert"};
-    String s3[] = {"12:44", "12:44", "12:44", "12:44", "12:44", "12:44", "12:44", "12:44"};
+    public static class ContactsViewModel extends ViewModel {
+        private MutableLiveData<List<Contact>> contacts;
+
+        public MutableLiveData<List<Contact>> getContacts(){
+            if (contacts == null){
+                contacts = new MutableLiveData<List<Contact>>();
+//                contacts.setValue(contactDao.getContacts());
+            }
+            return contacts;
+        }
+    }
+//    public MutableLiveData<List<Contact>> contacts;
+    public ContactsViewModel contactsViewModel;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
+        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
+        contactDao = db.contactDao();
+        contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
+        contactsViewModel.getContacts().observe(this, contacts -> {
+            // TODO: check whether we need to fill it
+        });
 
         recyclerView = findViewById(R.id.contactsList);
         ProgressBar loadSpinner = findViewById(R.id.progressBar);
-        MyAdapter myAdapter = new MyAdapter(this, s1, s2, s3);
+        contactsViewModel.getContacts().setValue(contactDao.getContacts());
+
+        MyAdapter myAdapter = new MyAdapter(this, contactsViewModel.getContacts().getValue());
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -51,14 +80,8 @@ public class ContactsListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //openDialog(); // TODO return button functionality
-                isLoading.setValue(Boolean.FALSE.equals(isLoading.getValue())); //tester to toggle loading state
-
-//                Toast toast = Toast.makeText(getApplicationContext(),
-//                        "Add Contact",
-//                        Toast.LENGTH_SHORT);
-//
-//                toast.show();
+                openDialog();
+                //isLoading.setValue(Boolean.FALSE.equals(isLoading.getValue())); //tester to toggle loading state
             }
         });
     }
@@ -69,7 +92,13 @@ public class ContactsListActivity extends AppCompatActivity {
     public void loadContacts(){
         isLoading.setValue(true);
         // TODO: add contact fetching via api
+    }
 
+    @Override
+    public void apply(String uname, String nickname, String server) {
+        contactDao.insertSingle(new Contact(uname,nickname,server));
+        //recreate();
+        contactsViewModel.getContacts().setValue(contactDao.getContacts());
     }
 
     public void openDialog() {

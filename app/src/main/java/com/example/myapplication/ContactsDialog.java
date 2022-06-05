@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,26 +31,50 @@ public class ContactsDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_dialog_contact, null);
 
+        etUsername = view.findViewById(R.id.edit_contact_name);
+        etNickname = view.findViewById(R.id.edit_contact_nickname);
+        etServer = view.findViewById(R.id.edit_contact_server);
+
         builder.setView(view)
                 .setTitle("Add Contact")
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 })
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        String server = etServer.getText().toString();
+                        String uname = etUsername.getText().toString();
+                        String nickname = etNickname.getText().toString();
+                        listener.apply(uname, nickname, server);
                     }
+
                 });
 
-        etUsername = view.findViewById(R.id.edit_contact_name);
-        etNickname = view.findViewById(R.id.edit_contact_nickname);
-        etServer = view.findViewById(R.id.edit_contact_server);
+//        etUsername = view.findViewById(R.id.edit_contact_name);
+//        etNickname = view.findViewById(R.id.edit_contact_nickname);
+//        etServer = view.findViewById(R.id.edit_contact_server);
 
         return builder.create();
     }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+
+        super.onAttach(context);
+        try {
+            listener = (DialogListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()+"must implement");
+        }
+    }
+
+    public interface DialogListener {
+        void apply(String uname, String nickname, String server);
+    }
+
+
 
 }
