@@ -27,6 +27,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         this.context = ct;
     }
 
+
+    public void setData(List<Contact> newData){
+        if (contacts!=null){
+            contacts.clear();
+            contacts.addAll(newData);
+            notifyDataSetChanged();
+        }
+        else{
+            contacts = newData;
+        }
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,9 +49,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.t1.setText(data1[position]);
-        holder.t2.setText(data2[position]);
-        holder.t3.setText(data3[position]);
+        holder.t1.setText(this.contacts.get(position).getName());
+        holder.t2.setText(this.contacts.get(position).getLast());
+        holder.t3.setText(this.contacts.get(position).getLastdate());
 
 
         holder.cl.setOnClickListener(new View.OnClickListener() {

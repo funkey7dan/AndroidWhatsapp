@@ -22,6 +22,7 @@ public class ContactsDialog extends AppCompatDialogFragment {
     private EditText etUsername;
     private EditText etNickname;
     private EditText etServer;
+    private DialogListener listener;
 
     @NonNull
     @Override

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.os.Bundle;
 import android.view.View;
@@ -19,22 +20,29 @@ import java.util.List;
 
 public class ChatsActivity extends AppCompatActivity {
 
+    DataSingleton data = DataSingleton.getInstance();
     RecyclerView recyclerView;
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
+    private AppDB db;
+    private ContactDao contactDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
+        contactDao = db.contactDao();
+
         setContentView(R.layout.activity_chats);
         ProgressBar loadSpinner = findViewById(R.id.progressBar);
         ImageView imageView = findViewById(R.id.chatContactImage);
         imageView.setClipToOutline(true);
 
         // Populate dummy messages in List, you can implement your code here
-        ArrayList<MessageModel> messagesList = new ArrayList<>();
-        for (int i=0;i<10;i++) {
-            messagesList.add(new MessageModel("Hi", i % 2 == 0 ? MessagesAdapter.MESSAGE_TYPE_IN : MessagesAdapter.MESSAGE_TYPE_OUT));
-        }
+        //ArrayList<Message> messagesList = new ArrayList<>();
+        List<Message> messagesList = contactDao.getChatWith(data.getActiveContact()).messages;
+//        for (int i=0;i<10;i++) {
+//            messagesList.add(new Message("Hi", i % 2 == 0 ? MessagesAdapter.MESSAGE_TYPE_IN : MessagesAdapter.MESSAGE_TYPE_OUT));
+//        }
         // observe the loading state and hide the loading spinner if loading is complete
         isLoading.observe(this, state -> {
             if (state){

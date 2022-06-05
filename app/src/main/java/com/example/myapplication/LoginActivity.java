@@ -9,7 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
 public class LoginActivity extends AppCompatActivity {
+    DataSingleton data = DataSingleton.getInstance();
     // buttons
     Button bRegister;
 
@@ -50,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 // the boolean variable turns to be true then
                 // only the user must be proceed to the activity2
                 if (isAllFieldsChecked) {
+                    data.setUser(etUsername.getText().toString());
                     Intent i = new Intent(LoginActivity.this, ContactsListActivity.class);
                     startActivity(i);
                 }

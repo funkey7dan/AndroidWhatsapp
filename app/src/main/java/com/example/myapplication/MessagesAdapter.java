@@ -7,17 +7,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.entities.Message;
 
 public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
-    ArrayList<MessageModel> list;
+    List<Message> list;
     public static final int MESSAGE_TYPE_IN = 1;
     public static final int MESSAGE_TYPE_OUT = 2;
 
-    public MessagesAdapter(Context context, ArrayList<MessageModel> list) { // you can pass other parameters in constructor
+    public MessagesAdapter(Context context, List<Message> list) { // you can pass other parameters in constructor
         this.context = context;
         this.list = list;
     }
@@ -62,7 +63,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (list.get(position).messageType == MESSAGE_TYPE_IN) {
+        if (!list.get(position).getSent()) {
             ((MessageInViewHolder) holder).bind(position);
         } else {
             ((MessageOutViewHolder) holder).bind(position);
@@ -76,6 +77,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        return list.get(position).messageType;
+        return list.get(position).getSent()? MESSAGE_TYPE_OUT:MESSAGE_TYPE_IN;
     }
 }
