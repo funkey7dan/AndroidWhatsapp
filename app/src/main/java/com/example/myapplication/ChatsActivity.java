@@ -33,7 +33,7 @@ public class ChatsActivity extends AppCompatActivity {
         contactDao = db.contactDao();
 
         setContentView(R.layout.activity_chats);
-        ProgressBar loadSpinner = findViewById(R.id.progressBar);
+        ProgressBar progressBar = findViewById(R.id.progressBar);
         ImageView imageView = findViewById(R.id.chatContactImage);
         imageView.setClipToOutline(true);
 
@@ -46,14 +46,13 @@ public class ChatsActivity extends AppCompatActivity {
         // observe the loading state and hide the loading spinner if loading is complete
         isLoading.observe(this, state -> {
             if (state){
-                loadSpinner.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
             }
             else{
-                loadSpinner.setVisibility(View.INVISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
         MessagesAdapter adapter = new MessagesAdapter(this, messagesList);
-
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);

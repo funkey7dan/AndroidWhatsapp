@@ -1,7 +1,10 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -25,6 +28,7 @@ import java.util.List;
 public class ContactsListActivity extends AppCompatActivity implements ContactsDialog.DialogListener {
     DataSingleton data = DataSingleton.getInstance();
     RecyclerView recyclerView;
+    ImageButton logout,settings;
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     private AppDB db;
     private ContactDao contactDao;
@@ -53,10 +57,18 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
         db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
         contactDao = db.contactDao();
         contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
-        contactsViewModel.getContacts().observe(this, contacts -> {
-            // TODO: check whether we need to fill it
-        });
 
+        logout = findViewById(R.id.logoutButton);
+        // Logout function
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                data.setUser(null);
+                Intent i = new Intent(ContactsListActivity.this, LoginActivity.class);
+                startActivity(i);
+            }
+        });
+        settings = findViewById(R.id.settingsButton);
         recyclerView = findViewById(R.id.contactsList);
         ProgressBar loadSpinner = findViewById(R.id.progressBar);
         contactsViewModel.getContacts().setValue(contactDao.getContacts());
@@ -65,6 +77,9 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        contactsViewModel.getContacts().observe(this, contacts -> {
+            myAdapter.setData(contactsViewModel.getContacts().getValue());
+        });
         ImageView myImage = findViewById(R.id.myImage);
         myImage.setClipToOutline(true);
         // observe the loading state and hide the loading spinner if loading is complete
