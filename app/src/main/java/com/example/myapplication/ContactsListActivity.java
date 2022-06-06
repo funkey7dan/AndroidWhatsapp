@@ -1,11 +1,15 @@
 package com.example.myapplication;
 
+import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
@@ -16,6 +20,8 @@ import androidx.room.Room;
 
 import com.example.myapplication.API.AppDB;
 import com.example.myapplication.API.ContactDao;
+import com.example.myapplication.API.ContactsRepository;
+import com.example.myapplication.API.ContactsViewModel;
 import com.example.myapplication.entities.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,19 +34,8 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     private AppDB db;
     private ContactDao contactDao;
-
-    public static class ContactsViewModel extends ViewModel {
-        private MutableLiveData<List<Contact>> contacts;
-
-        public MutableLiveData<List<Contact>> getContacts(){
-            if (contacts == null){
-                contacts = new MutableLiveData<List<Contact>>();
-//                contacts.setValue(contactDao.getContacts());
-            }
-            return contacts;
-        }
-    }
 //    public MutableLiveData<List<Contact>> contacts;
+    // TODO: check if it can be private
     public ContactsViewModel contactsViewModel;
 
 
@@ -50,23 +45,27 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
-        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
-        contactDao = db.contactDao();
+//        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
+//        contactDao = db.contactDao();
         contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
-        contactsViewModel.getContacts().observe(this, contacts -> {
-            // TODO: check whether we need to fill it
-        });
 
         recyclerView = findViewById(R.id.contactsList);
-        ProgressBar loadSpinner = findViewById(R.id.progressBar);
-        contactsViewModel.getContacts().setValue(contactDao.getContacts());
-
-        MyAdapter myAdapter = new MyAdapter(this, contactsViewModel.getContacts().getValue());
+        final MyAdapter myAdapter = new MyAdapter(this);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
+        contactsViewModel.get().observe(this, contacts -> {
+            // TODO: check whether we need to fill it
+            myAdapter.setData(contacts);
+        });
+
+
+        ProgressBar loadSpinner = findViewById(R.id.progressBar);
+
         ImageView myImage = findViewById(R.id.myImage);
         myImage.setClipToOutline(true);
+
         // observe the loading state and hide the loading spinner if loading is complete
         isLoading.observe(this, state -> {
             if (state){
@@ -76,6 +75,7 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
                 loadSpinner.setVisibility(View.INVISIBLE);
             }
         });
+
         FloatingActionButton fab = findViewById(R.id.floatingAddContact);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,9 +96,7 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
 
     @Override
     public void apply(String uname, String nickname, String server) {
-        contactDao.insertSingle(new Contact(uname,nickname,server));
-        //recreate();
-        contactsViewModel.getContacts().setValue(contactDao.getContacts());
+        contactsViewModel.add(new Contact(uname,nickname,server));
     }
 
     public void openDialog() {

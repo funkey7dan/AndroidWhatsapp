@@ -19,30 +19,33 @@ import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    List<Contact> contacts;
+    private List<Contact> contacts;
+    private final LayoutInflater inflater;
     Context context;
 
-    public MyAdapter(Context ct, List<Contact> contacts) {
-        this.contacts = contacts;
-        this.context = ct;
+    public MyAdapter(Context ct) {
+        context = ct;
+        inflater = LayoutInflater.from(ct);
     }
 
 
     public void setData(List<Contact> newData){
-        if (contacts!=null){
-            contacts.clear();
-            contacts.addAll(newData);
-            notifyDataSetChanged();
-        }
-        else{
-            contacts = newData;
-        }
+        // TODO: check if we need it
+//        if (contacts!=null){
+//            contacts.clear();
+//            contacts.addAll(newData);
+//            notifyDataSetChanged();
+//        }
+//        else{
+//            contacts = newData;
+//        }
+        contacts = newData;
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.contact_item, parent, false);
         return new MyViewHolder(view);
     }
