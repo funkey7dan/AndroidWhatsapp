@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
@@ -55,6 +56,7 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
+        ((TextView)findViewById(R.id.contactsName)).setText(data.getUser());
         db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
         contactDao = db.contactDao();
         contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
