@@ -38,7 +38,7 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
 
         public MutableLiveData<List<Contact>> getContacts(){
             if (contacts == null){
-                contacts = new MutableLiveData<List<Contact>>();
+                contacts = new MutableLiveData<>();
 //                contacts.setValue(contactDao.getContacts());
             }
             return contacts;
@@ -46,6 +46,7 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
     }
 //    public MutableLiveData<List<Contact>> contacts;
     public ContactsViewModel contactsViewModel;
+
 
 
 
@@ -57,26 +58,20 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
         db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
         contactDao = db.contactDao();
         contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
-
         logout = findViewById(R.id.logoutButton);
         // Logout function
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                data.setUser(null);
-                Intent i = new Intent(ContactsListActivity.this, LoginActivity.class);
-                startActivity(i);
-            }
+        logout.setOnClickListener(v -> {
+            data.setUser(null);
+            Intent i = new Intent(ContactsListActivity.this, LoginActivity.class);
+            startActivity(i);
         });
         settings = findViewById(R.id.settingsButton);
         recyclerView = findViewById(R.id.contactsList);
         ProgressBar loadSpinner = findViewById(R.id.progressBar);
         contactsViewModel.getContacts().setValue(contactDao.getContacts());
-
-        MyAdapter myAdapter = new MyAdapter(this, contactsViewModel.getContacts().getValue());
+        MyAdapter myAdapter = new MyAdapter(this, contactDao.getContacts());
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         contactsViewModel.getContacts().observe(this, contacts -> {
             myAdapter.setData(contactsViewModel.getContacts().getValue());
         });
@@ -92,13 +87,7 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
             }
         });
         FloatingActionButton fab = findViewById(R.id.floatingAddContact);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialog();
-                //isLoading.setValue(Boolean.FALSE.equals(isLoading.getValue())); //tester to toggle loading state
-            }
-        });
+        fab.setOnClickListener(v -> openDialog());
     }
 
     /**
