@@ -17,7 +17,10 @@ import com.example.myapplication.entities.Contact;
 
 import java.util.List;
 
+
+
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+    DataSingleton data = DataSingleton.getInstance();
 
     private List<Contact> contacts;
     private final LayoutInflater inflater;
@@ -58,8 +61,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
 
         holder.cl.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+                data.setActiveContact(contacts.get(holder.getAdapterPosition()).getId());
                 Intent i = new Intent(context, ChatsActivity.class);
                 context.startActivity(i);
             }

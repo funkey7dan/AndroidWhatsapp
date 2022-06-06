@@ -15,40 +15,40 @@ import java.util.List;
 public class ContactsRepository {
     DataSingleton data = DataSingleton.getInstance();
     private ContactDao contactDao;
-    private ContactListData contactListData;
+    //private ContactListData contactListData;
     private AppDB db;
 
     public ContactsRepository(Context applicationContext) {
         db = Room.databaseBuilder(applicationContext, AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
         contactDao = db.contactDao();
-        contactListData = new ContactListData();
+        //contactListData = new ContactListData();
     }
 
-    class ContactListData extends MutableLiveData<List<Contact>> {
-        public ContactListData() {
-            super();
-            // TODO: changed this, check if everything works. thread maybe needs to do it?
-            List<Contact> contacts = contactDao.getContacts();
-            setValue(contacts);
-        }
-
-        @Override
-        protected void onActive() {
-            super.onActive();
-
-            new Thread(() -> {
-                contactListData.postValue(contactDao.getContacts());
-            }).start();
-        }
-    }
+//    class ContactListData extends MutableLiveData<List<Contact>> {
+//        public ContactListData() {
+//            super();
+//            // TODO: changed this, check if everything works. thread maybe needs to do it?
+//            List<Contact> contacts = contactDao.getContacts();
+//            setValue(contacts);
+//        }
+//
+//        @Override
+//        protected void onActive() {
+//            super.onActive();
+//
+//            new Thread(() -> {
+//                contactListData.postValue(contactDao.getContacts());
+//            }).start();
+//        }
+//    }
 
     public LiveData<List<Contact>> getAll() {
-        return contactListData;
+        return contactDao.getContacts();
     }
 
     public void add(Contact contact) {
         contactDao.insertSingle(contact);
         // TODO: don't think its optimal, maybe the dao will get LiveData and set it there?
-        contactListData.setValue(contactDao.getContacts());
+//        contactListData.setValue(contactDao.getContacts());
     }
 }

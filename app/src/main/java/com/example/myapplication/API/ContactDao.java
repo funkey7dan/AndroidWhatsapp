@@ -27,8 +27,9 @@ public interface ContactDao
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertList(Contact... contacts);
 
+    // TODO: change to LiveData
     @Query("SELECT * FROM contact")
-    List<Contact> getContacts();
+    LiveData<List<Contact>> getContacts();
 
     // here we get a pair of <contact, messages>
     @Transaction
