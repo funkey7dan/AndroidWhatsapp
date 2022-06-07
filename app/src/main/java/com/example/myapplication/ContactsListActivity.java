@@ -1,31 +1,22 @@
 package com.example.myapplication;
 
-import android.app.Application;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.example.myapplication.API.AppDB;
 import com.example.myapplication.API.ContactDao;
-import com.example.myapplication.API.ContactsRepository;
 import com.example.myapplication.API.ContactsViewModel;
 import com.example.myapplication.entities.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
 
 
 public class ContactsListActivity extends AppCompatActivity implements ContactsDialog.DialogListener {
@@ -37,8 +28,6 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
 //    public MutableLiveData<List<Contact>> contacts;
     // TODO: check if it can be private
     public ContactsViewModel contactsViewModel;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +43,8 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        TextView usersName = findViewById(R.id.contactsName);
+        usersName.setText(data.getUser());
 
         contactsViewModel.get().observe(this, contacts -> {
             // TODO: check whether we need to fill it

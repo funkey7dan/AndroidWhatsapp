@@ -66,6 +66,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             public void onClick(View v) {
                 data.setActiveContact(contacts.get(holder.getAdapterPosition()).getId());
                 Intent i = new Intent(context, ChatsActivity.class);
+                i.putExtra("nickname", contacts.get(holder.getAdapterPosition()).getName());
                 context.startActivity(i);
             }
         });

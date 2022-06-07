@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.entities.Contact;
 import com.example.myapplication.entities.Message;
 
 public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -18,9 +19,13 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static final int MESSAGE_TYPE_IN = 1;
     public static final int MESSAGE_TYPE_OUT = 2;
 
-    public MessagesAdapter(Context context, List<Message> list) { // you can pass other parameters in constructor
+    public MessagesAdapter(Context context) { // you can pass other parameters in constructor
         this.context = context;
-        this.list = list;
+    }
+
+    public void setData(List<Message> newData){
+        list = newData;
+        notifyDataSetChanged();
     }
 
     private class MessageInViewHolder extends RecyclerView.ViewHolder {
@@ -49,7 +54,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         void bind(int position) {
             Message messageModel = list.get(position);
             messageTV.setText(messageModel.getContent());
-            dateTV.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(messageModel.getCreated()));
+            // TODO: change  to dynamic, for some reason crashes
+            dateTV.setText("12:00");
         }
     }
 
@@ -72,6 +78,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
+        if (list == null) return 0;
         return list.size();
     }
 

@@ -33,8 +33,8 @@ public interface ContactDao
 
     // here we get a pair of <contact, messages>
     @Transaction
-    @Query("SELECT * FROM contact WHERE contact.id = :contactId")
-    ContactWIthMessages getChatWith(String contactId);
+    @Query("SELECT * FROM contact WHERE contact.Id = :contactId")
+    LiveData<ContactWIthMessages> getChatWith(String contactId);
 
 }
 

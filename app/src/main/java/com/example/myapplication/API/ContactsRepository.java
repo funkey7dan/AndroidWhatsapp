@@ -1,6 +1,7 @@
 package com.example.myapplication.API;
 
 import android.content.Context;
+import android.icu.util.LocaleData;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -8,6 +9,8 @@ import androidx.room.Room;
 
 import com.example.myapplication.DataSingleton;
 import com.example.myapplication.entities.Contact;
+import com.example.myapplication.entities.ContactWIthMessages;
+import com.example.myapplication.entities.Message;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -46,9 +49,17 @@ public class ContactsRepository {
         return contactDao.getContacts();
     }
 
+    public LiveData<ContactWIthMessages> getAllMessages() {
+        return contactDao.getChatWith(data.getActiveContact());
+    }
+
     public void add(Contact contact) {
         contactDao.insertSingle(contact);
         // TODO: don't think its optimal, maybe the dao will get LiveData and set it there?
 //        contactListData.setValue(contactDao.getContacts());
+    }
+
+    public void addMessage(Message message) {
+        contactDao.insertMessage(message);
     }
 }

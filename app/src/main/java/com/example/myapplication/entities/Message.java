@@ -13,7 +13,8 @@ public class Message {
     @NonNull
     private Integer Id;
     private String Content;
-    private Boolean Sent;
+    // TODO: change this value to be dynamic
+    private Boolean Sent = true;
     private String Created;
     private String contactId;
 
