@@ -59,9 +59,23 @@ public class LoginActivity extends AppCompatActivity {
                     data.setUser(etUsername.getText().toString());
                     Intent i = new Intent(LoginActivity.this, ContactsListActivity.class);
                     startActivity(i);
+
                 }
             }
         });
+    }
+    // TODO: implement async task for login :
+    // https://developer.android.com/reference/android/os/AsyncTask
+    class LoginTask extends AsyncTask<String, Void, Void> {
+        protected Void doInBackground(String... strings) {
+
+            return result;
+        }
+
+        protected void onPostExecute(Long result) {
+        }
+
+
     }
 
     // function which checks all the text fields
@@ -81,7 +95,8 @@ public class LoginActivity extends AppCompatActivity {
         // TODO: real validation against the server
 
         // after all validation return true.
-        return api.post(etUsername.getText().toString(), etPassword.getText().toString());
+        boolean result = api.post(etUsername.getText().toString(), etPassword.getText().toString());
+        return result;
     }
 
 }
