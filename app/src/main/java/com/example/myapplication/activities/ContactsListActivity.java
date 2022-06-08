@@ -1,7 +1,10 @@
-package com.example.myapplication.activities;
+package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,12 +28,27 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class ContactsListActivity extends AppCompatActivity implements ContactsDialog.DialogListener {
     DataSingleton data = DataSingleton.getInstance();
     RecyclerView recyclerView;
+    ImageButton logout,settings;
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     private AppDB db;
     private ContactDao contactDao;
+
+    public static class ContactsViewModel extends ViewModel {
+        private MutableLiveData<List<Contact>> contacts;
+
+        public MutableLiveData<List<Contact>> getContacts(){
+            if (contacts == null){
+                contacts = new MutableLiveData<List<Contact>>();
+//                contacts.setValue(contactDao.getContacts());
+            }
+            return contacts;
+        }
+    }
 //    public MutableLiveData<List<Contact>> contacts;
     // TODO: check if it can be private
     public ContactsViewModel contactsViewModel;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +57,23 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
         setContentView(R.layout.activity_contacts_list);
 //        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
 //        contactDao = db.contactDao();
+        ((TextView)findViewById(R.id.contactsName)).setText(data.getUser());
+        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
+        contactDao = db.contactDao();
         contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
-
+        logout = findViewById(R.id.logoutButton);
+        // Logout function
+        logout.setOnClickListener(v -> {
+            data.setUser(null);
+            Intent i = new Intent(ContactsListActivity.this, LoginActivity.class);
+            startActivity(i);
+        });
+        settings = findViewById(R.id.settingsButton);
         recyclerView = findViewById(R.id.contactsList);
         final MyAdapter myAdapter = new MyAdapter(this);
+        ProgressBar loadSpinner = findViewById(R.id.progressBar);
+        contactsViewModel.getContacts().setValue(contactDao.getContacts());
+        MyAdapter myAdapter = new MyAdapter(this, contactDao.getContacts());
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -57,9 +88,11 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
 
         ProgressBar loadSpinner = findViewById(R.id.progressBar);
 
+        contactsViewModel.getContacts().observe(this, contacts -> {
+            myAdapter.setData(contactsViewModel.getContacts().getValue());
+        });
         ImageView myImage = findViewById(R.id.myImage);
         myImage.setClipToOutline(true);
-
         // observe the loading state and hide the loading spinner if loading is complete
         isLoading.observe(this, state -> {
             if (state){
@@ -69,15 +102,8 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
                 loadSpinner.setVisibility(View.INVISIBLE);
             }
         });
-
         FloatingActionButton fab = findViewById(R.id.floatingAddContact);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialog();
-                //isLoading.setValue(Boolean.FALSE.equals(isLoading.getValue())); //tester to toggle loading state
-            }
-        });
+        fab.setOnClickListener(v -> openDialog());
     }
 
     /**

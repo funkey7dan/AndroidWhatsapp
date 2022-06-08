@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,9 @@ import com.example.myapplication.utils.DataSingleton;
 import com.example.myapplication.adapters.MessagesAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.Message;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ChatsActivity extends AppCompatActivity {
 
@@ -69,8 +73,10 @@ public class ChatsActivity extends AppCompatActivity {
 
         // Populate dummy messages in List, you can implement your code here
         //ArrayList<Message> messagesList = new ArrayList<>();
-//        List<Message> messagesList = contactDao.getChatWith(data.getActiveContact()).messages;
-
+        List<Message> messagesList = contactDao.getChatWith(data.getActiveContact()).messages;
+//        for (int i=0;i<10;i++) {
+//            messagesList.add(new Message("Hi", i % 2 == 0 ? MessagesAdapter.MESSAGE_TYPE_IN : MessagesAdapter.MESSAGE_TYPE_OUT));
+//        }
         // observe the loading state and hide the loading spinner if loading is complete
         isLoading.observe(this, state -> {
             if (state){
