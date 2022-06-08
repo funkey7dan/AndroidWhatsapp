@@ -73,7 +73,7 @@ public class ChatsActivity extends AppCompatActivity {
 
         // Populate dummy messages in List, you can implement your code here
         //ArrayList<Message> messagesList = new ArrayList<>();
-        List<Message> messagesList = contactDao.getChatWith(data.getActiveContact()).messages;
+        //List<Message> messagesList = contactDao.getChatWith(data.getActiveContact()).messages;
 //        for (int i=0;i<10;i++) {
 //            messagesList.add(new Message("Hi", i % 2 == 0 ? MessagesAdapter.MESSAGE_TYPE_IN : MessagesAdapter.MESSAGE_TYPE_OUT));
 //        }

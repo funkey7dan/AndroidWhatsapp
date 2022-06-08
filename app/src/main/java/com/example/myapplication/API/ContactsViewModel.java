@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import com.example.myapplication.entities.Contact;
 import com.example.myapplication.entities.ContactWIthMessages;
 import com.example.myapplication.entities.Message;
+import com.example.myapplication.entities.Message;
 
 import java.util.List;
 
@@ -29,4 +30,5 @@ public class ContactsViewModel extends AndroidViewModel {
 
     public void add(Contact contact) { repository.add(contact); }
     public void addMessage(Message message) { repository.addMessage(message); }
+
 }

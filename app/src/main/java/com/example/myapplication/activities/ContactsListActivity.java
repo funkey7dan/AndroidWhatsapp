@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.room.Room;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.API.AppDB;
 import com.example.myapplication.API.ContactDao;
+import com.example.myapplication.API.ContactsAPI;
 import com.example.myapplication.API.ContactsViewModel;
 import com.example.myapplication.utils.DataSingleton;
 import com.example.myapplication.adapters.MyAdapter;
@@ -32,35 +34,25 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     private AppDB db;
     private ContactDao contactDao;
-
-    public static class ContactsViewModel extends ViewModel {
-        private MutableLiveData<List<Contact>> contacts;
-
-        public MutableLiveData<List<Contact>> getContacts(){
-            if (contacts == null){
-                contacts = new MutableLiveData<List<Contact>>();
-//                contacts.setValue(contactDao.getContacts());
-            }
-            return contacts;
-        }
-    }
 //    public MutableLiveData<List<Contact>> contacts;
     // TODO: check if it can be private
     public ContactsViewModel contactsViewModel;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, data.getUser() + "_db").allowMainThreadQueries().build();
+        contactDao = db.contactDao();
 //        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
 //        contactDao = db.contactDao();
-        ((TextView)findViewById(R.id.contactsName)).setText(data.getUser());
-        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
+        ((TextView) findViewById(R.id.contactsName)).setText(data.getUser());
+        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, data.getUser() + "_db").allowMainThreadQueries().build();
         contactDao = db.contactDao();
         contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
+        ContactsAPI contactsAPI = new ContactsAPI(contactDao);
+        loadContacts(contactsAPI);
         logout = findViewById(R.id.logoutButton);
         // Logout function
         logout.setOnClickListener(v -> {
@@ -71,28 +63,20 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
         settings = findViewById(R.id.settingsButton);
         recyclerView = findViewById(R.id.contactsList);
         final MyAdapter myAdapter = new MyAdapter(this);
-        ProgressBar loadSpinner = findViewById(R.id.progressBar);
-        contactsViewModel.getContacts().setValue(contactDao.getContacts());
-        MyAdapter myAdapter = new MyAdapter(this, contactDao.getContacts());
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         TextView usersName = findViewById(R.id.contactsName);
         usersName.setText(data.getUser());
 
-        contactsViewModel.get().observe(this, contacts -> {
-            // TODO: check whether we need to fill it
-            myAdapter.setData(contacts);
-        });
+        contactsViewModel.get().observe(this, myAdapter::setData);
 
 
         ProgressBar loadSpinner = findViewById(R.id.progressBar);
 
-        contactsViewModel.getContacts().observe(this, contacts -> {
-            myAdapter.setData(contactsViewModel.getContacts().getValue());
-        });
         ImageView myImage = findViewById(R.id.myImage);
         myImage.setClipToOutline(true);
+
         // observe the loading state and hide the loading spinner if loading is complete
         isLoading.observe(this, state -> {
             if (state){
@@ -102,16 +86,19 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
                 loadSpinner.setVisibility(View.INVISIBLE);
             }
         });
+
         FloatingActionButton fab = findViewById(R.id.floatingAddContact);
         fab.setOnClickListener(v -> openDialog());
     }
 
     /**
-     *  load contacts to local data base form server and refresh view
+     * load contacts to local data base form server and refresh view
      */
-    public void loadContacts(){
+    public void loadContacts(ContactsAPI api) {
         isLoading.setValue(true);
+        api.get();
         // TODO: add contact fetching via api
+        isLoading.setValue(false);
     }
 
     @Override

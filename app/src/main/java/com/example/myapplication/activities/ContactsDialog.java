@@ -15,8 +15,6 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.example.myapplication.R;
 
-import java.util.zip.Inflater;
-
 public class ContactsDialog extends AppCompatDialogFragment {
 
     private EditText etUsername;

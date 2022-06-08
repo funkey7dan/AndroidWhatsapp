@@ -1,7 +1,6 @@
 package com.example.myapplication.API;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -12,7 +11,6 @@ import com.example.myapplication.entities.ContactWIthMessages;
 import com.example.myapplication.entities.Message;
 import java.util.List;
 
-import androidx.room.Dao;
 import androidx.room.Transaction;
 
 @Dao
