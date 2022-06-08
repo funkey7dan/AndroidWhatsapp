@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
@@ -18,6 +18,9 @@ import android.widget.TextView;
 import com.example.myapplication.API.AppDB;
 import com.example.myapplication.API.ContactDao;
 import com.example.myapplication.API.ContactsViewModel;
+import com.example.myapplication.DataSingleton;
+import com.example.myapplication.MessagesAdapter;
+import com.example.myapplication.R;
 import com.example.myapplication.entities.Message;
 
 import java.util.ArrayList;
@@ -63,6 +66,7 @@ public class ChatsActivity extends AppCompatActivity {
                 String messageText = messageInput.getText().toString();
                 if (messageText.isEmpty()) return;
                 contactsViewModel.addMessage(new Message(messageText, data.getActiveContact()));
+                messageInput.setText("");
             }
         });
 

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activities;
 
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.API.AppDB;
 import com.example.myapplication.API.ContactDao;
 import com.example.myapplication.API.ContactsViewModel;
+import com.example.myapplication.DataSingleton;
+import com.example.myapplication.MyAdapter;
+import com.example.myapplication.R;
 import com.example.myapplication.entities.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
