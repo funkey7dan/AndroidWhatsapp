@@ -21,4 +21,7 @@ public interface WebServiceAPI {
     @POST("contacts")
     Call<Void> createContact(@Body Contact contact);
 
+    @POST("login")
+    Call<Void> login(@Body LoginRequest request);
+
 }

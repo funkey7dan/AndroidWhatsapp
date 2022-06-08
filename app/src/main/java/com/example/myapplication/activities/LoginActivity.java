@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.myapplication.API.LoginAPI;
+import com.example.myapplication.entities.LoginRequest;
 import com.example.myapplication.utils.DataSingleton;
 import com.example.myapplication.R;
 
@@ -30,12 +32,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         // need registration?
         TextView register = findViewById(R.id.tvLogin);
         register.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this,
                 RegisterActivity.class)));
-
+        LoginAPI api = new LoginAPI();
         // validations
         // register buttons with their proper IDs.
         bRegister = findViewById(R.id.sendButton);
@@ -51,8 +52,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 // store the returned value of the dedicated function which checks
                 // whether the entered data is valid or if any fields are left blank.
-                isAllFieldsChecked = CheckAllFields();
-
+                isAllFieldsChecked = CheckAllFields(api);
                 // the boolean variable turns to be true then
                 // only the user must be proceed to the activity2
                 if (isAllFieldsChecked) {
@@ -63,11 +63,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     // function which checks all the text fields
     // are filled or not by the user.
     // when user clicks on the PROCEED button
     // this function is triggered.
-    private boolean CheckAllFields() {
+    private Boolean CheckAllFields(LoginAPI api) {
         if (etUsername.length() == 0) {
             etUsername.setError("This field is required");
             return false;
@@ -77,10 +78,10 @@ public class LoginActivity extends AppCompatActivity {
             etPassword.setError("Password is required");
             return false;
         }
-
         // TODO: real validation against the server
 
         // after all validation return true.
-        return true;
+        return api.post(etUsername.getText().toString(), etPassword.getText().toString());
     }
+
 }
