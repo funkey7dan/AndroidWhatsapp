@@ -1,18 +1,15 @@
 package com.example.myapplication.API;
 
 import android.content.Context;
-import android.icu.util.LocaleData;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
-import com.example.myapplication.DataSingleton;
+import com.example.myapplication.utils.DataSingleton;
 import com.example.myapplication.entities.Contact;
 import com.example.myapplication.entities.ContactWIthMessages;
 import com.example.myapplication.entities.Message;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class ContactsRepository {

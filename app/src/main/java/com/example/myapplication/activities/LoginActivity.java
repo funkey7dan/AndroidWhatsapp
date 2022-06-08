@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.myapplication.DataSingleton;
+import com.example.myapplication.utils.DataSingleton;
 import com.example.myapplication.R;
 
 

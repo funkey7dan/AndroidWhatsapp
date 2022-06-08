@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import android.os.Bundle;
 import android.view.View;
@@ -18,13 +17,10 @@ import android.widget.TextView;
 import com.example.myapplication.API.AppDB;
 import com.example.myapplication.API.ContactDao;
 import com.example.myapplication.API.ContactsViewModel;
-import com.example.myapplication.DataSingleton;
-import com.example.myapplication.MessagesAdapter;
+import com.example.myapplication.utils.DataSingleton;
+import com.example.myapplication.adapters.MessagesAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.Message;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChatsActivity extends AppCompatActivity {
 
@@ -60,14 +56,11 @@ public class ChatsActivity extends AppCompatActivity {
 
         EditText messageInput = findViewById(R.id.messageInput);
         Button sendButton = findViewById(R.id.sendButton);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String messageText = messageInput.getText().toString();
-                if (messageText.isEmpty()) return;
-                contactsViewModel.addMessage(new Message(messageText, data.getActiveContact()));
-                messageInput.setText("");
-            }
+        sendButton.setOnClickListener(v -> {
+            String messageText = messageInput.getText().toString();
+            if (messageText.isEmpty()) return;
+            contactsViewModel.addMessage(new Message(messageText, data.getActiveContact()));
+            messageInput.setText("");
         });
 
         contactsViewModel.getMessages().observe(this, messages -> {

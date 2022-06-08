@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.utils.DataSingleton;
+import com.example.myapplication.R;
 import com.example.myapplication.activities.ChatsActivity;
 import com.example.myapplication.entities.Contact;
 
