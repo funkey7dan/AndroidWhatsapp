@@ -7,13 +7,14 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 
 public interface WebServiceAPI {
     @GET("contacts")
-    Call<List<Contact>> getContacts();
+    Call<List<Contact>> getContacts(@Header("Authorization") String auth);
 
     @GET("contacts/{id}")
     Call<Contact> getContact(@Path("id") String id);
@@ -23,5 +24,10 @@ public interface WebServiceAPI {
 
     @POST("login")
     Call<Void> login(@Body LoginRequest request);
+
+    @POST("register")
+    Call<Void> register(@Body LoginRequest request);
+
+
 
 }

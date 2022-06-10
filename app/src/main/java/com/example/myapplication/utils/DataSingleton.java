@@ -3,6 +3,15 @@ package com.example.myapplication.utils;
 public class DataSingleton {
     private String user = null;
     private String activeContact = null;
+    private String token = null;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     // Getter/setter
     public String getUser() {

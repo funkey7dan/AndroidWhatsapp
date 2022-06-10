@@ -1,6 +1,7 @@
 package com.example.myapplication.API;
 
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -58,6 +59,11 @@ public class ContactsAPI {
 
             @Override
             public void onFailure(@NonNull Call<List<Contact>> call, @NonNull Throwable t) {
+                try {
+                    throw t;
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
             }
         });
 

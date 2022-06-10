@@ -9,7 +9,7 @@ import java.util.List;
 public class ContactWIthMessages {
     @Embedded public Contact contact;
     @Relation(
-            parentColumn = "Id",
+            parentColumn = "id",
             entityColumn = "contactId"
     )
     public List<Message> messages;

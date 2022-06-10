@@ -1,9 +1,5 @@
 package com.example.myapplication.API;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -11,7 +7,6 @@ import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.LoginRequest;
 import okhttp3.OkHttpClient;
-import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,7 +41,7 @@ public class LoginAPI {
                     result = true;
                 }
                 else{
-                    Toast.makeText(MyApplication.getContext(), "Failure", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyApplication.getContext(), "", Toast.LENGTH_LONG).show();
                     result = false;
                 }
             }
@@ -59,7 +54,7 @@ public class LoginAPI {
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(MyApplication.getContext(),"Failure",Toast.LENGTH_LONG).show();
+                Toast.makeText(MyApplication.getContext(),"Request failed",Toast.LENGTH_LONG).show();
             }
         });
         try {
