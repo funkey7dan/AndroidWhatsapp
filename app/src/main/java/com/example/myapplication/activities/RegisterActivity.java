@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,9 +50,9 @@ public class RegisterActivity extends AppCompatActivity {
 
                 // store the returned value of the dedicated function which checks
                 // whether the entered data is valid or if any fields are left blank.
-                isAllFieldsChecked = CheckAllFields();
+                CheckAllFields();
 
-                // the boolean variable turns to be true then
+                /*// the boolean variable turns to be true then
                 // only the user must be proceed to the activity2
                 if (isAllFieldsChecked) {
                     Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
@@ -60,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT);
                     toast.show();
                     startActivity(i);
-                }
+                }*/
             }
         });
     }
@@ -83,8 +84,44 @@ public class RegisterActivity extends AppCompatActivity {
             etConfirmPassword.setError("Passwords are not matching");
             return false;
         }
-
         // after all validation return true.
+        WebServiceAPI webServiceAPI;
+        Retrofit retrofit = RetrofitSingleton.getInstance();
+        webServiceAPI = retrofit.create(WebServiceAPI.class);
+
+        Call<Void> call = webServiceAPI.register(new LoginRequest(etUsername.getText().toString()
+                ,etPassword.getText().toString()));
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("tag1",response.toString());
+                Log.d("tag2",response.headers().toString());
+                if (response.code()==200){
+                    Toast.makeText(MyApplication.getContext(), "Success", Toast.LENGTH_LONG).show();
+
+                    Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
+                    startActivity(i);
+                }
+                else{
+                    Toast.makeText(MyApplication.getContext(), "User already exists!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                try {
+                    throw t;
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(MyApplication.getContext(),"Request failed",Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
+
         return true;
     }
 }

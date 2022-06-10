@@ -42,7 +42,7 @@ public class LoginAPI {
                 Log.d("tag1",response.toString());
                 Log.d("tag2",response.headers().toString());
                 if (response.code()==200){
-                    Toast.makeText(MyApplication.getContext(), "Success", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MyApplication.getContext(), "Successful login", Toast.LENGTH_LONG).show();
                     result = true;
                 }
                 else{
