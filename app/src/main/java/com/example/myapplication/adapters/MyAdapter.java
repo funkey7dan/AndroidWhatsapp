@@ -2,6 +2,7 @@ package com.example.myapplication.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,8 +19,11 @@ import com.example.myapplication.R;
 import com.example.myapplication.activities.ChatsActivity;
 import com.example.myapplication.entities.Contact;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-
+import java.util.Objects;
 
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
@@ -55,11 +60,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return new MyViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.t1.setText(this.contacts.get(position).getName());
         holder.t2.setText(this.contacts.get(position).getLast());
-        holder.t3.setText(this.contacts.get(position).getLastdate());
+        LocalDateTime dateTime = LocalDateTime.parse(this.contacts.get(position).getLastdate());
+        String formatted = dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + dateTime.format(DateTimeFormatter.ISO_LOCAL_TIME);
+        if (!Objects.equals(this.contacts.get(position).getLast(), null)) {
+            holder.t3.setText(formatted);
+        } else {
+            holder.t3.setText("");
+        }
 
 
         holder.cl.setOnClickListener(new View.OnClickListener() {

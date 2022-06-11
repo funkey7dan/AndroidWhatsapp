@@ -22,38 +22,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ContactsAPI {
     private MutableLiveData<List<Contact>> contactsListData;
     private final ContactDao contactDao;
-    Retrofit retrofit;
+    Retrofit retrofit = RetrofitSingleton.getInstance();
     WebServiceAPI webServiceAPI;
 
 
     public ContactsAPI(MutableLiveData<List<Contact>> contactsListData, ContactDao contactDao) {
         this.contactsListData = contactsListData;
         this.contactDao = contactDao;
-        retrofit = new Retrofit.Builder()
-                .baseUrl(MyApplication.getContext().getString(R.string.BaseUrl))
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        webServiceAPI = retrofit.create(WebServiceAPI.class);
-    }
-
-    public ContactsAPI(ContactDao contactDao) {
-        this.contactDao = contactDao;
-        retrofit = RetrofitSingleton.getInstance();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
 
     public void get() {
-        String auth = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbGljZSIsImp0aSI6ImYzNzBhZGY3LWY4ODQtNDYyMC05MmUxLTZhMjVkZDE4OWE2ZCIsImlhdCI6IjE2NTQ3NjU1MzIiLCJVc2VySWQiOiJhbGljZSIsImV4cCI6MTY1NDc2OTEzMiwiaXNzIjoiRm9vIiwiYXVkIjoiQmFyIn0.A-ySQHcxdwv8Gpoucp90JhhbEsIgkji7OnFAZ-V5feU";
-        Call<List<Contact>> call = webServiceAPI.getContacts(auth);
+        Call<List<Contact>> call = webServiceAPI.getContacts();
         call.enqueue(new Callback<List<Contact>>() {
             @Override
             public void onResponse(@NonNull Call<List<Contact>> call, @NonNull Response<List<Contact>> response) {
                 new Thread(() -> {
-                    //contactDao.clear(); TODO implement ?
-                    Log.d("Contacts response",response.toString());
-                    Log.d("Contacts headers",response.headers().toString());
-                    contactDao.insertList(response.body());
-                    contactsListData.postValue(contactDao.getContacts().getValue());
+                    Log.d("Contacts response", response.toString());
+                    Log.d("Contacts headers", response.headers().toString());
+                    //contactDao.insertList(response.body());
+                    contactsListData.postValue(response.body());
                 }).start();
             }
 

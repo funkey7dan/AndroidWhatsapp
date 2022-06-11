@@ -17,8 +17,8 @@ public class Contact {
     private String last;
     private String lastdate;
 
-    public Contact() {
-    }
+//    public Contact() {
+//    }
 
     public Contact(@NonNull String id, String name, String server) {
         this.id = id;

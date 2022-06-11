@@ -35,23 +35,20 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
     private AppDB db;
     private ContactDao contactDao;
 //    public MutableLiveData<List<Contact>> contacts;
-    // TODO: check if it can be private
-    public ContactsViewModel contactsViewModel;
+// TODO: check if it can be private
+public ContactsViewModel contactsViewModel;
+    public ContactsAPI api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
         db = Room.databaseBuilder(getApplicationContext(), AppDB.class, data.getUser() + "_db").allowMainThreadQueries().build();
         contactDao = db.contactDao();
-//        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
-//        contactDao = db.contactDao();
-        ((TextView) findViewById(R.id.contactsName)).setText(data.getUser());
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, data.getUser() + "_db").allowMainThreadQueries().build();
-        contactDao = db.contactDao();
         contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
-        ContactsAPI contactsAPI = new ContactsAPI(contactDao);
+        ((TextView) findViewById(R.id.contactsName)).setText(data.getUser());
+        ContactsAPI contactsAPI = new ContactsAPI(contactsViewModel.get(), contactDao);
+        api = contactsAPI;
         loadContacts(contactsAPI);
         logout = findViewById(R.id.logoutButton);
         // Logout function
@@ -103,7 +100,9 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
 
     @Override
     public void apply(String uname, String nickname, String server) {
-        contactsViewModel.add(new Contact(uname,nickname,server));
+        api.get();
+        contactsViewModel.get();
+        contactsViewModel.add(new Contact(uname, nickname, server));
     }
 
     public void openDialog() {

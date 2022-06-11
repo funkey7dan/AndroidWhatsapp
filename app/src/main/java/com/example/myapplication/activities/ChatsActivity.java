@@ -25,6 +25,7 @@ import com.example.myapplication.entities.Message;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ChatsActivity extends AppCompatActivity {
 
@@ -40,12 +41,9 @@ public class ChatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
         setContentView(R.layout.activity_chats);
-
-//        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
-//        contactDao = db.contactDao();
-
         recyclerView = findViewById(R.id.recycler_view);
         MessagesAdapter adapter = new MessagesAdapter(this);
+        adapter.setData(Objects.requireNonNull(contactsViewModel.getMessages().getValue()).messages);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
@@ -53,7 +51,7 @@ public class ChatsActivity extends AppCompatActivity {
         contactsName.setText(getIntent().getExtras().getString("nickname"));
 
 
-//        setContentView(R.layout.activity_chats);
+//       setContentView(R.layout.activity_chats);
         ProgressBar loadSpinner = findViewById(R.id.progressBar);
         ImageView imageView = findViewById(R.id.chatContactImage);
         imageView.setClipToOutline(true);
@@ -68,7 +66,9 @@ public class ChatsActivity extends AppCompatActivity {
         });
 
         contactsViewModel.getMessages().observe(this, messages -> {
-            adapter.setData(messages.messages);
+            if (messages != null) {
+                adapter.setData(messages.messages);
+            }
         });
 
         // Populate dummy messages in List, you can implement your code here

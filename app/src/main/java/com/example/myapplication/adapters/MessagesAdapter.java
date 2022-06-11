@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,7 +16,7 @@ import com.example.myapplication.entities.Message;
 
 public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
-    List<Message> list;
+    List<Message> list = new ArrayList<>();
     public static final int MESSAGE_TYPE_IN = 1;
     public static final int MESSAGE_TYPE_OUT = 2;
 
@@ -24,7 +25,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void setData(List<Message> newData){
-        list = newData;
+        list.addAll(newData);
         notifyDataSetChanged();
     }
 

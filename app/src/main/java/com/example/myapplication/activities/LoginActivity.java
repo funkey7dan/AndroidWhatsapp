@@ -60,35 +60,10 @@ public class LoginActivity extends AppCompatActivity {
         bRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // store the returned value of the dedicated function which checks
-                // whether the entered data is valid or if any fields are left blank.
-//                isAllFieldsChecked = CheckAllFields(api);
                 CheckAllFields();
-                // the boolean variable turns to be true then
-                // only the user must be proceed to the activity2
-                /*if (isAllFieldsChecked) {
-                    data.setUser(etUsername.getText().toString());
-                    Intent i = new Intent(LoginActivity.this, ContactsListActivity.class);
-                    startActivity(i);
-
-                }*/
             }
         });
     }
-    // TODO: implement async task for login :
-    // https://developer.android.com/reference/android/os/AsyncTask
-/*    class LoginTask extends AsyncTask<String, Void, Void> {
-        protected Void doInBackground(String... strings) {
-
-            return result;
-        }
-
-        protected void onPostExecute(Long result) {
-        }
-
-
-    }*/
 
     // function which checks all the text fields
     // are filled or not by the user.
@@ -104,9 +79,6 @@ public class LoginActivity extends AppCompatActivity {
             etPassword.setError("Password is required");
             return;
         }
-        // TODO: real validation against the server
-
-
         WebServiceAPI webServiceAPI;
         Retrofit retrofit = RetrofitSingleton.getInstance();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
@@ -126,7 +98,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(MyApplication.getContext(), "Username/Password is incorrect", Toast.LENGTH_LONG).show();
-//                    result = false;
                 }
             }
 

@@ -6,6 +6,8 @@ import android.widget.Toast;
 import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.LoginRequest;
+import com.example.myapplication.utils.RetrofitSingleton;
+
 import okhttp3.OkHttpClient;
 
 import retrofit2.Call;
@@ -15,17 +17,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginAPI {
-    Retrofit retrofit;
+    Retrofit retrofit = RetrofitSingleton.getInstance();
     WebServiceAPI webServiceAPI;
     public Boolean result;
-    OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
 
     public LoginAPI() {
-        retrofit = new Retrofit.Builder()
-                .baseUrl(MyApplication.getContext().getString(R.string.BaseUrl))
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
     public Boolean post(String username, String password) {
