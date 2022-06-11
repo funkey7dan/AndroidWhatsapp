@@ -25,7 +25,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void setData(List<Message> newData){
-        list.addAll(newData);
+        list = newData;
         notifyDataSetChanged();
     }
 
@@ -56,7 +56,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             Message messageModel = list.get(position);
             messageTV.setText(messageModel.getContent());
             // TODO: change  to dynamic, for some reason crashes
-            dateTV.setText("12:00");
+            dateTV.setText(messageModel.getCreated());
         }
     }
 

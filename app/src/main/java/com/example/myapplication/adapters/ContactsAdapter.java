@@ -16,39 +16,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.utils.DataSingleton;
 import com.example.myapplication.R;
-import com.example.myapplication.activities.ChatsActivity;
+import com.example.myapplication.activities.MessagesActivity;
 import com.example.myapplication.entities.Contact;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.MyViewHolder> {
     DataSingleton data = DataSingleton.getInstance();
 
     private List<Contact> contacts;
     private final LayoutInflater inflater;
     Context context;
 
-    public MyAdapter(Context ct) {
+    public ContactsAdapter(Context ct) {
         context = ct;
         inflater = LayoutInflater.from(ct);
     }
 
 
     public void setData(List<Contact> newData){
-        // TODO: check if we need it
-//        if (contacts!=null){
-//            contacts.clear();
-//            contacts.addAll(newData);
-//            notifyDataSetChanged();
-//        }
-//        else{
-//            contacts = newData;
-//        }
         contacts = newData;
         notifyDataSetChanged();
     }
@@ -79,7 +69,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             @Override
             public void onClick(View v) {
                 data.setActiveContact(contacts.get(holder.getAdapterPosition()).getId());
-                Intent i = new Intent(context, ChatsActivity.class);
+                Intent i = new Intent(context, MessagesActivity.class);
                 i.putExtra("nickname", contacts.get(holder.getAdapterPosition()).getName());
                 context.startActivity(i);
             }

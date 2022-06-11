@@ -2,7 +2,6 @@ package com.example.myapplication.API;
 
 import android.content.Context;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
@@ -11,7 +10,9 @@ import com.example.myapplication.entities.Contact;
 import com.example.myapplication.entities.ContactWIthMessages;
 import com.example.myapplication.entities.Message;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class ContactsRepository {
@@ -19,12 +20,13 @@ public class ContactsRepository {
     private ContactDao contactDao;
     private AppDB db;
     private MutableLiveData<List<Contact>> contacts;
-    private MutableLiveData<ContactWIthMessages> messages;
+    private final Map<String, ContactWIthMessages> contactWIthMessagesMap;
 
 
     public ContactsRepository(Context applicationContext) {
         db = Room.databaseBuilder(applicationContext, AppDB.class, data.getUser() + "_db").allowMainThreadQueries().build();
         contactDao = db.contactDao();
+        this.contactWIthMessagesMap = new HashMap<>();
         this.contacts = null;
         //contactListData = new ContactListData();
     }
@@ -33,27 +35,33 @@ public class ContactsRepository {
     public MutableLiveData<List<Contact>> getAllContacts() {
         if (this.contacts == null) {
             this.contacts = new MutableLiveData<>(contactDao.getContacts().getValue());
+            if (this.contacts.getValue() != null) {
+                for (Contact c : Objects.requireNonNull(this.contacts.getValue())
+                ) {
+                    if (!contactWIthMessagesMap.containsKey(c.getId())) {
+                        contactWIthMessagesMap.put(c.getId(), new ContactWIthMessages(c));
+                    }
+                }
+            }
         }
+        // generate a list of messages for all contacts
         return contacts;
     }
 
-    public MutableLiveData<ContactWIthMessages> getAllMessages() {
-        if (this.messages == null) {
-            this.messages = new MutableLiveData<>(contactDao.getChatWith(data.getActiveContact()).getValue());
-            if (messages.getValue() == null) {
-                messages.setValue(new ContactWIthMessages());
-            }
-        }
-        return messages;
+    public Map<String, ContactWIthMessages> getAllMessages() {
+        return contactWIthMessagesMap;
     }
 
     public void addContact(Contact contact) {
         Objects.requireNonNull(this.contacts.getValue()).add(contact);
         contactDao.insertSingle(contact);
+        contacts.getValue().add(contact);
+        contactWIthMessagesMap.put(contact.getId(), new ContactWIthMessages(contact));
     }
 
     public void addMessage(Message message) {
-        Objects.requireNonNull(this.messages.getValue()).messages.add(message);
+        this.contactWIthMessagesMap.get(message.getContactId()).messages.add(message);
+
         contactDao.insertMessage(message);
     }
 }

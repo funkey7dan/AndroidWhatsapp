@@ -3,7 +3,6 @@ package com.example.myapplication.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -21,7 +20,7 @@ import com.example.myapplication.API.ContactDao;
 import com.example.myapplication.API.ContactsAPI;
 import com.example.myapplication.API.ContactsViewModel;
 import com.example.myapplication.utils.DataSingleton;
-import com.example.myapplication.adapters.MyAdapter;
+import com.example.myapplication.adapters.ContactsAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -43,11 +42,14 @@ public ContactsViewModel contactsViewModel;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
+        // create database instance and DAO
         db = Room.databaseBuilder(getApplicationContext(), AppDB.class, data.getUser() + "_db").allowMainThreadQueries().build();
         contactDao = db.contactDao();
+        // make a new Viewmodel
         contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
         ((TextView) findViewById(R.id.contactsName)).setText(data.getUser());
-        ContactsAPI contactsAPI = new ContactsAPI(contactsViewModel.get(), contactDao);
+        // make a new API
+        ContactsAPI contactsAPI = new ContactsAPI(contactsViewModel.getContactsList(), contactDao);
         api = contactsAPI;
         loadContacts(contactsAPI);
         logout = findViewById(R.id.logoutButton);
@@ -59,18 +61,13 @@ public ContactsViewModel contactsViewModel;
         });
         settings = findViewById(R.id.settingsButton);
         recyclerView = findViewById(R.id.contactsList);
-        final MyAdapter myAdapter = new MyAdapter(this);
-        recyclerView.setAdapter(myAdapter);
+        final ContactsAdapter contactsAdapter = new ContactsAdapter(this);
+        recyclerView.setAdapter(contactsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         TextView usersName = findViewById(R.id.contactsName);
         usersName.setText(data.getUser());
-
-        contactsViewModel.get().observe(this, myAdapter::setData);
-
-
+        contactsViewModel.getContactsList().observe(this, contactsAdapter::setData);
         ProgressBar loadSpinner = findViewById(R.id.progressBar);
-
         ImageView myImage = findViewById(R.id.myImage);
         myImage.setClipToOutline(true);
 
@@ -101,7 +98,7 @@ public ContactsViewModel contactsViewModel;
     @Override
     public void apply(String uname, String nickname, String server) {
         api.get();
-        contactsViewModel.get();
+        contactsViewModel.getContactsList();
         contactsViewModel.add(new Contact(uname, nickname, server));
     }
 

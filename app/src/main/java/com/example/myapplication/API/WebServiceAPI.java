@@ -30,5 +30,9 @@ public interface WebServiceAPI {
     @POST("invitations")
     Call<Void> inviteContact(@Body inviteContact request);
 
+    @GET("contacts/{id}/messages")
+    Call<List<Message>> getMessagesWith(@Path("id") String id);
 
+    @POST("contacts/{id}/messages")
+    Call<Void> sendMessage(@Path("id") String id, @Body MessageRequest request);
 }

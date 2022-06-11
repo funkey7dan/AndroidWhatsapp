@@ -1,9 +1,14 @@
 package com.example.myapplication.entities;
 
 
+import android.os.Build;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.room.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Entity
@@ -21,9 +26,11 @@ public class Message {
     public Message() {
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public Message(String content, String contactId) {
         Content = content;
         this.contactId = contactId;
+        this.Created = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
     public String getContactId() {
