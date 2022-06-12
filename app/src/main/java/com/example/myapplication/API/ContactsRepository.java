@@ -15,48 +15,37 @@ import java.util.List;
 public class ContactsRepository {
     DataSingleton data = DataSingleton.getInstance();
     private ContactDao contactDao;
-    //private ContactListData contactListData;
     private AppDB db;
+    private ContactsAPI contactsAPI;
+    private MessagesAPI messagesAPI;
 
     public ContactsRepository(Context applicationContext) {
         db = Room.databaseBuilder(applicationContext, AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
         contactDao = db.contactDao();
-        //contactListData = new ContactListData();
+        contactsAPI = new ContactsAPI(contactDao);
+        messagesAPI = new MessagesAPI(contactDao);
     }
 
-//    class ContactListData extends MutableLiveData<List<Contact>> {
-//        public ContactListData() {
-//            super();
-//            // TODO: changed this, check if everything works. thread maybe needs to do it?
-//            List<Contact> contacts = contactDao.getContacts();
-//            setValue(contacts);
-//        }
-//
-//        @Override
-//        protected void onActive() {
-//            super.onActive();
-//
-//            new Thread(() -> {
-//                contactListData.postValue(contactDao.getContacts());
-//            }).start();
-//        }
-//    }
-
-    public LiveData<List<Contact>> getAll() {
+    public LiveData<List<Contact>> getAllContact() {
+        contactsAPI.get();
         return contactDao.getContacts();
     }
 
     public LiveData<ContactWIthMessages> getAllMessages() {
+        messagesAPI.get(data.getActiveContact());
         return contactDao.getChatWith(data.getActiveContact());
     }
 
-    public void add(Contact contact) {
-        contactDao.insertSingle(contact);
-        // TODO: don't think its optimal, maybe the dao will get LiveData and set it there?
-//        contactListData.setValue(contactDao.getContacts());
+    public void addContact(Contact contact) {
+        contactDao.insertSingleContact(contact);
+        // post
+        contactsAPI.addContact(contact);
+        contactsAPI.inviteContact(contact);
     }
 
     public void addMessage(Message message) {
-        contactDao.insertMessage(message);
+        contactDao.insertSingleMessage(message);
+        messagesAPI.post(data.getActiveContact(), message.getContent());
+        messagesAPI.transfer(data.getActiveContact(),data.getUser(),message.getContent());
     }
 }

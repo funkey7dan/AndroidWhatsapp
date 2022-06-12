@@ -1,5 +1,6 @@
 package com.example.myapplication.activities;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +28,7 @@ import com.example.myapplication.entities.Message;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatsActivity extends AppCompatActivity {
+public class MessagesActivity extends AppCompatActivity {
 
     DataSingleton data = DataSingleton.getInstance();
     RecyclerView recyclerView;
@@ -35,6 +37,7 @@ public class ChatsActivity extends AppCompatActivity {
     private ContactDao contactDao;
     public ContactsViewModel contactsViewModel;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,20 @@ public class ChatsActivity extends AppCompatActivity {
         MessagesAdapter adapter = new MessagesAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        recyclerView.scrollToPosition(adapter.getItemCount() - 1);
+        recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (bottom < oldBottom) {
+                    recyclerView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+                        }
+                    },50);
+                }
+            }
+        });
 
         TextView contactsName = findViewById(R.id.contactsName);
         contactsName.setText(getIntent().getExtras().getString("nickname"));
@@ -63,39 +80,25 @@ public class ChatsActivity extends AppCompatActivity {
         sendButton.setOnClickListener(v -> {
             String messageText = messageInput.getText().toString();
             if (messageText.isEmpty()) return;
-            contactsViewModel.addMessage(new Message(messageText, data.getActiveContact()));
+            contactsViewModel.addMessage(new Message(messageText, data.getActiveContact(),
+                    data.getUser(), data.getActiveContact()));
             messageInput.setText("");
         });
 
         contactsViewModel.getMessages().observe(this, messages -> {
-            adapter.setData(messages.messages);
+            if (messages != null) {
+                adapter.setData(messages.messages);
+            }
+            recyclerView.scrollToPosition(adapter.getItemCount() - 1);
         });
 
-        // Populate dummy messages in List, you can implement your code here
-        //ArrayList<Message> messagesList = new ArrayList<>();
-        //List<Message> messagesList = contactDao.getChatWith(data.getActiveContact()).messages;
-//        for (int i=0;i<10;i++) {
-//            messagesList.add(new Message("Hi", i % 2 == 0 ? MessagesAdapter.MESSAGE_TYPE_IN : MessagesAdapter.MESSAGE_TYPE_OUT));
-//        }
         // observe the loading state and hide the loading spinner if loading is complete
         isLoading.observe(this, state -> {
-            if (state){
+            if (state) {
                 loadSpinner.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else {
                 loadSpinner.setVisibility(View.INVISIBLE);
             }
         });
-
-
-    }
-
-    /**
-     *  load contacts to local data base form server and refresh view
-     */
-    public void loadMessages(){
-        isLoading.setValue(true);
-        // TODO: add message fetching via api
-
     }
 }

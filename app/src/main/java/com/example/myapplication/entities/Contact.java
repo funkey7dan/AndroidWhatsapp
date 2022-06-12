@@ -24,6 +24,16 @@ public class Contact {
         this.id = id;
         this.name = name;
         this.server = server;
+        this.last = null;
+        this.lastdate = null;
+    }
+
+    public Contact(@NonNull String id, String name, String server, String last, String lastdate) {
+        this.id = id;
+        this.name = name;
+        this.server = server;
+        this.last = last;
+        this.lastdate = lastdate;
     }
 
     public String getId() {

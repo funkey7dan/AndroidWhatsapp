@@ -1,29 +1,75 @@
 package com.example.myapplication.entities;
 
 
+import android.os.Build;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.room.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Message {
 
     @PrimaryKey(autoGenerate = false)
     @NonNull
-    private Integer Id;
-    private String Content;
+    private Integer id;
+    private String content;
     // TODO: change this value to be dynamic
-    private Boolean Sent = true;
-    private String Created;
+    private String sender;
+    private String receiver;
+    private String created;
     private String contactId;
 
     public Message() {
     }
 
+    public Message(@NonNull Integer id, String content,
+                   String sender, String receiver, String created) {
+        this.id = id;
+        this.content = content;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.created = created;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public Message(String content, String contactId) {
-        Content = content;
+        this.content = content;
         this.contactId = contactId;
+        this.created = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public Message(String content, String contactId, String sender, String receiver) {
+        this.content = content;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.contactId = contactId;
+        String time = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        if(time.length()>19){
+            this.created = time.substring(0, 19);
+        }
+        else{
+            this.created = time;
+        }
     }
 
     public String getContactId() {
@@ -35,34 +81,27 @@ public class Message {
     }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getContent() {
-        return Content;
+        return content;
     }
 
     public void setContent(String content) {
-        Content = content;
+        this.content = content;
     }
 
-    public Boolean getSent() {
-        return Sent;
-    }
-
-    public void setSent(Boolean sent) {
-        Sent = sent;
-    }
 
     public String getCreated() {
-        return Created;
+        return created;
     }
 
     public void setCreated(String created) {
-        Created = created;
+        this.created = created;
     }
 }

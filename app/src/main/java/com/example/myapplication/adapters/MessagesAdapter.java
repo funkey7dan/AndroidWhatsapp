@@ -6,7 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
+
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
@@ -39,7 +44,11 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         void bind(int position) {
             Message messageModel = list.get(position);
             messageTV.setText(messageModel.getContent());
-            dateTV.setText(DateFormat.getTimeInstance(DateFormat.SHORT).format(messageModel.getCreated()));
+            dateTV.setText(messageModel.getCreated());
+            // TODO: convert date to more convenient format
+//            LocalDate parsedDate = LocalDate.parse(messageModel.getCreated(), DateTimeFormatter.ofPattern("HH:mm"));
+//            String formatted = parsedDate.format(DateTimeFormatter.ofPattern("HH:mm"));
+//            dateTV.setText(formatted);
         }
     }
 
@@ -54,8 +63,10 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         void bind(int position) {
             Message messageModel = list.get(position);
             messageTV.setText(messageModel.getContent());
-            // TODO: change  to dynamic, for some reason crashes
-            dateTV.setText("12:00");
+            // TODO: change to formatted time
+            dateTV.setText(messageModel.getCreated());
+
+
         }
     }
 

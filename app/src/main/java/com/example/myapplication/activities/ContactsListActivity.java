@@ -1,5 +1,6 @@
 package com.example.myapplication.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +35,7 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
     private AppDB db;
     private ContactDao contactDao;
+    private MyAdapter myAdapter;
 //    public MutableLiveData<List<Contact>> contacts;
     // TODO: check if it can be private
     public ContactsViewModel contactsViewModel;
@@ -43,16 +45,9 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, data.getUser() + "_db").allowMainThreadQueries().build();
-        contactDao = db.contactDao();
-//        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
-//        contactDao = db.contactDao();
         ((TextView) findViewById(R.id.contactsName)).setText(data.getUser());
-        db = Room.databaseBuilder(getApplicationContext(), AppDB.class, data.getUser() + "_db").allowMainThreadQueries().build();
-        contactDao = db.contactDao();
         contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
-        ContactsAPI contactsAPI = new ContactsAPI(contactDao);
-        loadContacts(contactsAPI);
+
         logout = findViewById(R.id.logoutButton);
         // Logout function
         logout.setOnClickListener(v -> {
@@ -62,7 +57,7 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
         });
         settings = findViewById(R.id.settingsButton);
         recyclerView = findViewById(R.id.contactsList);
-        final MyAdapter myAdapter = new MyAdapter(this);
+        myAdapter = new MyAdapter(this);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -91,15 +86,6 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
         fab.setOnClickListener(v -> openDialog());
     }
 
-    /**
-     * load contacts to local data base form server and refresh view
-     */
-    public void loadContacts(ContactsAPI api) {
-        isLoading.setValue(true);
-        api.get();
-        // TODO: add contact fetching via api
-        isLoading.setValue(false);
-    }
 
     @Override
     public void apply(String uname, String nickname, String server) {
@@ -110,4 +96,12 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
         ContactsDialog contactsDialog = new ContactsDialog();
         contactsDialog.show(getSupportFragmentManager(), "add contact dialog");
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //contactsViewModel.get().observe(this, myAdapter::setData);
+        contactsViewModel.updateContacts();
+    }
 }
+

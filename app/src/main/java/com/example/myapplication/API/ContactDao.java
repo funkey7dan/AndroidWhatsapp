@@ -16,14 +16,20 @@ import androidx.room.Transaction;
 @Dao
 public interface ContactDao
 {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMessage(Message message);
+    @Query("DELETE FROM contact")
+    public void clearContacts();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertSingle(Contact contact);
+    void insertMessagesList(List<Message> messages);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertList(List<Contact> contacts);
+    void insertSingleMessage(Message message);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertSingleContact(Contact contact);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertContactsList(List<Contact> contacts);
 
     @Query("SELECT * FROM contact")
     LiveData<List<Contact>> getContacts();
