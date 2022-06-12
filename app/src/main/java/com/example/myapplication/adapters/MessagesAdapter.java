@@ -1,6 +1,7 @@
 package com.example.myapplication.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.Contact;
 import com.example.myapplication.entities.Message;
+import com.example.myapplication.utils.DataSingleton;
 
 public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
     List<Message> list;
     public static final int MESSAGE_TYPE_IN = 1;
     public static final int MESSAGE_TYPE_OUT = 2;
+    private DataSingleton data = DataSingleton.getInstance();
 
     public MessagesAdapter(Context context) { // you can pass other parameters in constructor
         this.context = context;
@@ -41,6 +44,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             messageTV = itemView.findViewById(R.id.message_text);
             dateTV = itemView.findViewById(R.id.date_text);
         }
+        @RequiresApi(api = Build.VERSION_CODES.O)
         void bind(int position) {
             Message messageModel = list.get(position);
             messageTV.setText(messageModel.getContent());
@@ -60,6 +64,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             messageTV = itemView.findViewById(R.id.message_text);
             dateTV = itemView.findViewById(R.id.date_text);
         }
+        @RequiresApi(api = Build.VERSION_CODES.O)
         void bind(int position) {
             Message messageModel = list.get(position);
             messageTV.setText(messageModel.getContent());
@@ -78,12 +83,14 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return new MessageOutViewHolder(LayoutInflater.from(context).inflate(R.layout.item_text_out, parent, false));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (!list.get(position).getSent()) {
-            ((MessageInViewHolder) holder).bind(position);
-        } else {
+        if (Objects.equals(list.get(position).getSender(), data.getUser())) {
             ((MessageOutViewHolder) holder).bind(position);
+        } else {
+            ((MessageInViewHolder) holder).bind(position);
+
         }
     }
 
@@ -95,6 +102,6 @@ public class MessagesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        return list.get(position).getSent()? MESSAGE_TYPE_OUT:MESSAGE_TYPE_IN;
+        return Objects.equals(list.get(position).getSender(), data.getUser()) ? MESSAGE_TYPE_OUT:MESSAGE_TYPE_IN;
     }
 }
