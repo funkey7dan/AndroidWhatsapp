@@ -1,7 +1,5 @@
 package com.example.myapplication.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,10 +9,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.myapplication.API.WebServiceAPI;
-import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.LoginRequest;
+import com.example.myapplication.utils.MyApplication;
 import com.example.myapplication.utils.RetrofitSingleton;
 
 import retrofit2.Call;

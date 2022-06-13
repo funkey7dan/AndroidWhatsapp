@@ -1,7 +1,6 @@
 package com.example.myapplication.utils;
 
 import com.example.myapplication.API.UnsafeOkHttpClient;
-import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
 
 import okhttp3.OkHttpClient;

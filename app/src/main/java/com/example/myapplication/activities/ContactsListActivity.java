@@ -1,16 +1,15 @@
 package com.example.myapplication.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.room.Room;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,13 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.API.AppDB;
 import com.example.myapplication.API.ContactDao;
-import com.example.myapplication.API.ContactsAPI;
 import com.example.myapplication.API.ContactsViewModel;
-import com.example.myapplication.utils.DataSingleton;
-import com.example.myapplication.adapters.MyAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.adapters.MyAdapter;
 import com.example.myapplication.entities.Contact;
+import com.example.myapplication.utils.DataSingleton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 public class ContactsListActivity extends AppCompatActivity implements ContactsDialog.DialogListener {
@@ -42,7 +41,6 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
         ((TextView) findViewById(R.id.contactsName)).setText(data.getUser());
@@ -54,6 +52,20 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
             data.setUser(null);
             Intent i = new Intent(ContactsListActivity.this, LoginActivity.class);
             startActivity(i);
+        });
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.w("token failed", "Fetching FCM registration token failed", task.getException());
+                return;
+            }
+
+            // Get new FCM registration token
+            String token = task.getResult();
+
+            // Log and toast
+            String msg = token;
+            Log.d("token created", msg);
+            Toast.makeText(ContactsListActivity.this, msg, Toast.LENGTH_SHORT).show();
         });
         settings = findViewById(R.id.settingsButton);
         recyclerView = findViewById(R.id.contactsList);

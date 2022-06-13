@@ -13,10 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.API.LoginAPI;
 import com.example.myapplication.API.WebServiceAPI;
-import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.LoginRequest;
 import com.example.myapplication.utils.DataSingleton;
+import com.example.myapplication.utils.MyApplication;
 import com.example.myapplication.utils.RetrofitSingleton;
 
 import retrofit2.Call;

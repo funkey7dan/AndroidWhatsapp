@@ -6,11 +6,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.myapplication.MyApplication;
 import com.example.myapplication.entities.Contact;
 import com.example.myapplication.entities.addContactRequest;
 import com.example.myapplication.entities.inviteContact;
 import com.example.myapplication.utils.DataSingleton;
+import com.example.myapplication.utils.MyApplication;
 import com.example.myapplication.utils.RetrofitSingleton;
 
 import java.net.URL;

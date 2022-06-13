@@ -3,11 +3,11 @@ package com.example.myapplication.API;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.myapplication.MyApplication;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.LoginRequest;
-import okhttp3.OkHttpClient;
+import com.example.myapplication.utils.MyApplication;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
