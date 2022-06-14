@@ -80,6 +80,7 @@ public class ContactsAPI {
                 Log.d("invite2", response.headers().toString());
                 if (response.code() == 201 || response.code() == 200) {
                     Toast.makeText(MyApplication.getContext(), "Success!", Toast.LENGTH_LONG).show();
+//                    contactDao.insertSingleContact(contact);
                 } else if (response.code() == 404) {
                     Toast.makeText(MyApplication.getContext(), "Contact doesn't exist!", Toast.LENGTH_LONG).show();
                 } else {

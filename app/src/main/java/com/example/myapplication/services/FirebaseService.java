@@ -12,10 +12,11 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class FirebaseService extends FirebaseMessagingService {
-    DataSingleton data = DataSingleton.getInstance();
-    LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
+    DataSingleton data;
+    LocalBroadcastManager broadcastManager;
 
     public FirebaseService() {
+        data = DataSingleton.getInstance();
     }
 
 
@@ -29,6 +30,7 @@ public class FirebaseService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage message) {
         super.onMessageReceived(message);
+        broadcastManager = LocalBroadcastManager.getInstance(this);
 
         Log.d("message received", String.valueOf(message));
         if (message.getNotification() != null) {

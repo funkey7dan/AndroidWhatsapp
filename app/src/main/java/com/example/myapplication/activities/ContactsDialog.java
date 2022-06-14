@@ -49,12 +49,7 @@ public class ContactsDialog extends AppCompatDialogFragment {
                         String nickname = etNickname.getText().toString();
                         listener.apply(uname, nickname, server);
                     }
-
                 });
-
-//        etUsername = view.findViewById(R.id.edit_contact_name);
-//        etNickname = view.findViewById(R.id.edit_contact_nickname);
-//        etServer = view.findViewById(R.id.edit_contact_server);
 
         return builder.create();
     }
@@ -73,7 +68,4 @@ public class ContactsDialog extends AppCompatDialogFragment {
     public interface DialogListener {
         void apply(String uname, String nickname, String server);
     }
-
-
-
 }
