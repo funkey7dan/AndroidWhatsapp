@@ -1,5 +1,9 @@
 package com.example.myapplication.activities;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +17,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +37,12 @@ public class MessagesActivity extends AppCompatActivity {
     private AppDB db;
     private ContactDao contactDao;
     public ContactsViewModel contactsViewModel;
+    protected BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            contactsViewModel.updateMessages();
+        }
+    };
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -42,7 +53,7 @@ public class MessagesActivity extends AppCompatActivity {
 
 //        db = Room.databaseBuilder(getApplicationContext(),AppDB.class, data.getUser()+"_db").allowMainThreadQueries().build();
 //        contactDao = db.contactDao();
-
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter.create("Message", "application/MyType"));
         recyclerView = findViewById(R.id.recycler_view);
         MessagesAdapter adapter = new MessagesAdapter(this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

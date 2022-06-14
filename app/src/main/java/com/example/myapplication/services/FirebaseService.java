@@ -10,9 +10,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.example.myapplication.utils.DataSingleton;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
 public class FirebaseService extends FirebaseMessagingService {
     DataSingleton data = DataSingleton.getInstance();
-    LocalBroadcastManager broadcastManager;
+    LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(this);
 
     public FirebaseService() {
     }
@@ -28,14 +29,14 @@ public class FirebaseService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage message) {
         super.onMessageReceived(message);
+
         Log.d("message received", String.valueOf(message));
         if (message.getNotification() != null) {
             message.getNotification().getTitle().equals("New Message");
-            Intent intent = new Intent("Message")
+            broadcastManager.sendBroadcast(new Intent("Message")
                     .putExtra("sentFrom", message.getData().get("sentFrom"))
                     .putExtra("content", message.getData().get("content"))
-                    .setType("application/MyType");
-            broadcastManager.sendBroadcast(intent);
+                    .setType("application/MyType"));
         }
     }
 

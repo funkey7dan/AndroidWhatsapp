@@ -80,6 +80,7 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
             // Log and toast
             String msg = token;
             Log.d("token created", msg);
+            data.setToken(token);
             contactsViewModel.sendToken();
         });
         settings = findViewById(R.id.settingsButton);
