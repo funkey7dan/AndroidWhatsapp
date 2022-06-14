@@ -5,10 +5,10 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
-import com.example.myapplication.utils.DataSingleton;
 import com.example.myapplication.entities.Contact;
 import com.example.myapplication.entities.ContactWIthMessages;
 import com.example.myapplication.entities.Message;
+import com.example.myapplication.utils.DataSingleton;
 
 import java.util.List;
 
@@ -46,6 +46,14 @@ public class ContactsRepository {
     public void addMessage(Message message) {
         contactDao.insertSingleMessage(message);
         messagesAPI.post(data.getActiveContact(), message.getContent());
-        messagesAPI.transfer(data.getActiveContact(),data.getUser(),message.getContent());
+        messagesAPI.transfer(data.getActiveContact(), data.getUser(), message.getContent());
+    }
+
+    public void sendToken() {
+        contactsAPI.sendToken(data.getToken());
+    }
+
+    public void editContact(String content) {
+
     }
 }

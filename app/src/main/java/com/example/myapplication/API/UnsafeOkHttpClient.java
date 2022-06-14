@@ -1,8 +1,5 @@
 package com.example.myapplication.API;
 
-import com.example.myapplication.utils.DataSingleton;
-
-import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,20 +15,21 @@ import javax.net.ssl.X509TrustManager;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class UnsafeOkHttpClient {
+    private static OkHttpClient unsafeClient;
+
     public static class SessionCookieJar implements CookieJar {
         private List<Cookie> cookies;
+
         @Override
         public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
             if (url.encodedPath().endsWith("login")) {
                 this.cookies = new ArrayList<>(cookies);
             }
         }
+
         public List<Cookie> loadForRequest(HttpUrl url) {
             if (!url.encodedPath().endsWith("login") && cookies != null) {
                 return cookies;
@@ -39,48 +37,50 @@ public class UnsafeOkHttpClient {
             return Collections.emptyList();
         }
     }
+
     public static OkHttpClient getUnsafeOkHttpClient() {
+        if (unsafeClient == null) {
+            try {
+                // Create a trust manager that does not validate certificate chains
+                final TrustManager[] trustAllCerts = new TrustManager[]{
+                        new X509TrustManager() {
+                            @Override
+                            public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                            }
 
-        DataSingleton data = DataSingleton.getInstance();
-        try {
-            // Create a trust manager that does not validate certificate chains
-            final TrustManager[] trustAllCerts = new TrustManager[] {
-                    new X509TrustManager() {
-                        @Override
-                        public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
-                        }
+                            @Override
+                            public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                            }
 
-                        @Override
-                        public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
+                            @Override
+                            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                                return new java.security.cert.X509Certificate[]{};
+                            }
                         }
+                };
 
-                        @Override
-                        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                            return new java.security.cert.X509Certificate[]{};
-                        }
+                // Install the all-trusting trust manager
+                final SSLContext sslContext = SSLContext.getInstance("SSL");
+                sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+
+                // Create an ssl socket factory with our all-trusting manager
+                final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+
+                OkHttpClient.Builder builder = new OkHttpClient.Builder();
+                builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0]);
+                builder.hostnameVerifier(new HostnameVerifier() {
+                    @Override
+                    public boolean verify(String hostname, SSLSession session) {
+                        return true;
                     }
-            };
-
-            // Install the all-trusting trust manager
-            final SSLContext sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-
-            // Create an ssl socket factory with our all-trusting manager
-            final SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-
-            OkHttpClient.Builder builder = new OkHttpClient.Builder();
-            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager)trustAllCerts[0]);
-            builder.hostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String hostname, SSLSession session) {
-                    return true;
-                }
-            });
-            builder.cookieJar(new SessionCookieJar()).build();
-            return builder.build();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+                });
+                builder.cookieJar(new SessionCookieJar()).build();
+                unsafeClient = builder.build();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
+        return unsafeClient;
     }
 
 }

@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication.API.LoginAPI;
 import com.example.myapplication.API.WebServiceAPI;
 import com.example.myapplication.R;
 import com.example.myapplication.entities.LoginRequest;
@@ -47,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         TextView register = findViewById(R.id.tvLogin);
         register.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this,
                 RegisterActivity.class)));
-        LoginAPI api = new LoginAPI();
+
         // validations
         // register buttons with their proper IDs.
         bRegister = findViewById(R.id.sendButton);
@@ -104,7 +103,6 @@ public class LoginActivity extends AppCompatActivity {
             etPassword.setError("Password is required");
             return;
         }
-        // TODO: real validation against the server
 
 
         WebServiceAPI webServiceAPI;

@@ -1,13 +1,5 @@
 package com.example.myapplication.activities;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -17,16 +9,20 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.myapplication.API.AppDB;
 import com.example.myapplication.API.ContactDao;
 import com.example.myapplication.API.ContactsViewModel;
-import com.example.myapplication.utils.DataSingleton;
-import com.example.myapplication.adapters.MessagesAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.adapters.MessagesAdapter;
 import com.example.myapplication.entities.Message;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.myapplication.utils.DataSingleton;
 
 public class MessagesActivity extends AppCompatActivity {
 
@@ -59,7 +55,7 @@ public class MessagesActivity extends AppCompatActivity {
                     recyclerView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+                            recyclerView.smoothScrollToPosition(Math.max(adapter.getItemCount() - 1, 0));
                         }
                     },50);
                 }

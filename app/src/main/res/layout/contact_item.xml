@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/main_layout">
@@ -13,13 +12,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="82dp"
-            android:background="@drawable/contact_border">
+            android:background="@drawable/contact_border"
+            android:padding="5sp">
 
 
             <ImageView
                 android:id="@+id/contactImage"
-                android:layout_width="81dp"
-                android:layout_height="match_parent"
+                android:layout_width="63dp"
+                android:layout_height="63dp"
                 android:background="@drawable/rounded_corners"
                 android:clipToOutline="true"
                 android:contentDescription="@string/default_avatar"
@@ -32,6 +32,7 @@
                 android:id="@+id/lastMessage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxLength="40"
                 android:text="@string/last_message"
                 app:layout_constraintStart_toStartOf="@+id/contactName"
                 app:layout_constraintTop_toBottomOf="@+id/contactName" />

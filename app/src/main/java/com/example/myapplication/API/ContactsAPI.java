@@ -46,7 +46,12 @@ public class ContactsAPI {
                     Log.d("Contacts response", response.toString());
                     Log.d("Contacts headers", response.headers().toString());
 //                    contactDao.clearContacts();
-                    contactDao.insertContactsList(response.body());
+                    try {
+                        contactDao.insertContactsList(response.body());
+                    } catch (NullPointerException e) {
+                        Log.d("onResponese GEt", "onResponse: ");
+                        e.printStackTrace();
+                    }
 //                    contactsListData.postValue(response.body());
                 }).start();
             }
@@ -138,6 +143,28 @@ public class ContactsAPI {
             }
         });
 
+    }
+
+    public void sendToken(String token) {
+        Retrofit retrofit = RetrofitSingleton.getInstance();
+        WebServiceAPI webServiceAPI = retrofit.create(WebServiceAPI.class);
+        Call<Void> call = webServiceAPI.sendToken(new MessageRequest(token));
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.d("token send1", response.toString());
+                Log.d("token send2", response.headers().toString());
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                try {
+                    throw t;
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 }

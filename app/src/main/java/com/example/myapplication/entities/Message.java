@@ -5,7 +5,8 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.room.*;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +18,6 @@ public class Message {
     @NonNull
     private Integer id;
     private String content;
-    // TODO: change this value to be dynamic
     private String sender;
     private String receiver;
     private String created;

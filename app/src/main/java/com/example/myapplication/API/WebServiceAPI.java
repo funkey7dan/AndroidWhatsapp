@@ -1,6 +1,11 @@
 package com.example.myapplication.API;
 
-import com.example.myapplication.entities.*;
+import com.example.myapplication.entities.Contact;
+import com.example.myapplication.entities.LoginRequest;
+import com.example.myapplication.entities.Message;
+import com.example.myapplication.entities.TransferRequest;
+import com.example.myapplication.entities.addContactRequest;
+import com.example.myapplication.entities.inviteContact;
 
 import java.util.List;
 
@@ -38,4 +43,10 @@ public interface WebServiceAPI {
 
     @POST("contacts/{id}/messages")
     Call<Void> sendMessage(@Path("id") String id, @Body MessageRequest request);
+
+    @POST("login/token")
+    Call<Void> sendToken(@Body MessageRequest request);
+
+    @GET("Logout")
+    Call<Void> logout();
 }

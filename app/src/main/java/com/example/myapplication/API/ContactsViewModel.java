@@ -16,22 +16,43 @@ public class ContactsViewModel extends AndroidViewModel {
     private LiveData<List<Contact>> contacts;
     private LiveData<ContactWIthMessages> messages;
 
-    public ContactsViewModel (Application application) {
+    public ContactsViewModel(Application application) {
         super(application);
         repository = new ContactsRepository(application.getApplicationContext());
         contacts = repository.getAllContact();
         messages = repository.getAllMessages();
     }
 
-    public LiveData<List<Contact>> get() { return contacts; }
+    public LiveData<List<Contact>> get() {
+        return contacts;
+    }
 
-    public void updateContacts() { repository.getAllContact(); }
+    public void updateContacts() {
+        repository.getAllContact();
+    }
 
-    public void updateMessages() { repository.getAllMessages(); }
+    public void updateMessages() {
+        repository.getAllMessages();
+    }
 
-    public LiveData<ContactWIthMessages> getMessages() { return messages; }
+    public LiveData<ContactWIthMessages> getMessages() {
+        return messages;
+    }
 
-    public void add(Contact contact) { repository.addContact(contact); }
-    public void addMessage(Message message) { repository.addMessage(message); }
+    public void add(Contact contact) {
+        repository.addContact(contact);
+    }
+
+    public void addMessage(Message message) {
+        repository.addMessage(message);
+    }
+
+    public void sendToken() {
+        repository.sendToken();
+    }
+
+    public void editContact(String content) {
+        repository.editContact(content);
+    }
 
 }

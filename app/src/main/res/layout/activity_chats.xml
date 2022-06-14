@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:background="#F4F4F4"
         android:backgroundTint="#F4F4F4"
+        android:padding="3sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -48,12 +49,12 @@
             android:layout_height="80dp"
             android:background="@drawable/rounded_corners"
             android:clipToOutline="true"
+            android:contentDescription="@string/default_avatar"
             android:src="@drawable/avatar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.42000002"
-            android:contentDescription="@string/default_avatar" />
+            app:layout_constraintVertical_bias="0.42000002" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

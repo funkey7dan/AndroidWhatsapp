@@ -1,6 +1,7 @@
 <resources>
     <string name="BaseUrl">https://10.0.2.2:7066/api/</string>
-    <string name="app_name">My Application</string>
+    <string name="BaseUrlNoAPI">https://10.0.2.2:7066/</string>
+    <string name="app_name">DTWChats</string>
     <string name="register">Register</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
