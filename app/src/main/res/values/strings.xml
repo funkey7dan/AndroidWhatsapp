@@ -21,6 +21,8 @@
     <string name="last_message">Last Message</string>
     <string name="contact_name">Contact Name</string>
     <string name="_12_34">12:34</string>
+    <string name="channel_name">Messages</string>
+    <string name="channel_description">Messages received</string>
     <string-array name="spinner_array">
         <item>Settings</item>
         <item>Logout</item>

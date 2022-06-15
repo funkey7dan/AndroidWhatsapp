@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -49,9 +51,11 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
         @Override
         public void onReceive(Context context, Intent intent) {
             contactsViewModel.updateContacts();
+
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,8 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
 
         LocalBroadcastManager.getInstance(this).registerReceiver(receiver, IntentFilter.create("Message", "application/MyType"));
         ((TextView) findViewById(R.id.contactsName)).setText(data.getUser());
+
+
         contactsViewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
 
         logout = findViewById(R.id.logoutButton);
@@ -104,8 +110,7 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
         isLoading.observe(this, state -> {
             if (state){
                 loadSpinner.setVisibility(View.VISIBLE);
-            }
-            else{
+            } else{
                 loadSpinner.setVisibility(View.INVISIBLE);
             }
         });
@@ -167,5 +172,7 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
             }
         });
     }
+
+
 }
 
