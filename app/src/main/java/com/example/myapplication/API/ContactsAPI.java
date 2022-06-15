@@ -47,6 +47,7 @@ public class ContactsAPI {
                     Log.d("Contacts headers", response.headers().toString());
 //                    contactDao.clearContacts();
                     try {
+                        contactDao.clearContacts();
                         contactDao.insertContactsList(response.body());
                     } catch (NullPointerException e) {
                         Log.d("onResponese GEt", "onResponse: ");
@@ -80,7 +81,8 @@ public class ContactsAPI {
                 Log.d("invite2", response.headers().toString());
                 if (response.code() == 201 || response.code() == 200) {
                     Toast.makeText(MyApplication.getContext(), "Success!", Toast.LENGTH_LONG).show();
-//                    contactDao.insertSingleContact(contact);
+                    contactDao.insertSingleContact(contact);
+                    inviteContact(contact);
                 } else if (response.code() == 404) {
                     Toast.makeText(MyApplication.getContext(), "Contact doesn't exist!", Toast.LENGTH_LONG).show();
                 } else {

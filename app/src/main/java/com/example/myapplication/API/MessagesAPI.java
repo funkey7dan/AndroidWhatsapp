@@ -47,6 +47,7 @@ public class MessagesAPI {
                         for (Message m: list) {
                             m.setContactId(id);
                         }
+                        contactDao.clearMessages(id);
                         contactDao.insertMessagesList(list);
                     }
 

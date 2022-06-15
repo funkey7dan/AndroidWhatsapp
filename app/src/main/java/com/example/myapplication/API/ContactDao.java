@@ -2,6 +2,7 @@ package com.example.myapplication.API;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -18,6 +19,9 @@ public interface ContactDao
 {
     @Query("DELETE FROM contact")
     public void clearContacts();
+
+    @Query("DELETE FROM message WHERE contactId = :contactId")
+    void clearMessages(String contactId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMessagesList(List<Message> messages);

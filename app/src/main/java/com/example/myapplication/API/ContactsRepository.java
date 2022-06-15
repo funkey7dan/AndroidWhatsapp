@@ -39,12 +39,12 @@ public class ContactsRepository {
     public void addContact(Contact contact) {
         // TODO: think about it -
         // I don't think its ok to add it to room immediately
-        contactDao.insertSingleContact(contact);
+//        contactDao.insertSingleContact(contact);
         // post
         contactsAPI.addContact(contact);
         // TODO: change immediately the logic! we invite only
         // if the add contact is valid (200)
-        contactsAPI.inviteContact(contact);
+//        contactsAPI.inviteContact(contact);
     }
 
     public void addMessage(Message message) {
