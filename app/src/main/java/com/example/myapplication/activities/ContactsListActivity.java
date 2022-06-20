@@ -51,7 +51,6 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
         @Override
         public void onReceive(Context context, Intent intent) {
             contactsViewModel.updateContacts();
-
         }
     };
 

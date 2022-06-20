@@ -54,20 +54,25 @@ public class FirebaseService extends FirebaseMessagingService {
 
         Log.d("message received", String.valueOf(message));
         if (message.getNotification() != null) {
-            message.getNotification().getTitle().equals("New Message");
-            broadcastManager.sendBroadcast(new Intent("Message")
-                    .putExtra("sentFrom", message.getData().get("sentFrom"))
-                    .putExtra("content", message.getData().get("content"))
-                    .setType("application/MyType"));
+            if (message.getNotification().getTitle().equals("New Message")) {
+                broadcastManager.sendBroadcast(new Intent("Message")
+                        .putExtra("sentFrom", message.getData().get("sentFrom"))
+                        .putExtra("content", message.getData().get("content"))
+                        .setType("application/MyType"));
 
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setSmallIcon(R.drawable.ic_notification_plane)
-                    .setContentTitle(message.getData().get("sentFrom"))
-                    .setContentText(message.getData().get("content"))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setCategory(NotificationCompat.CATEGORY_MESSAGE);
-            int oneTimeID = (int) SystemClock.uptimeMillis();
-            NotificationManagerCompat.from(this).notify(oneTimeID, builder.build());
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_notification_plane)
+                        .setContentTitle(message.getData().get("sentFrom"))
+                        .setContentText(message.getData().get("content"))
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setCategory(NotificationCompat.CATEGORY_MESSAGE);
+                int oneTimeID = (int) SystemClock.uptimeMillis();
+                NotificationManagerCompat.from(this).notify(oneTimeID, builder.build());
+            } else {
+                broadcastManager.sendBroadcast(new Intent("Message")
+                        .setType("application/MyType"));
+            }
+
         }
     }
 
