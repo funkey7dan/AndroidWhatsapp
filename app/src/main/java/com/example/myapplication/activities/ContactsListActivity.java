@@ -22,22 +22,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.API.ContactsViewModel;
-import com.example.myapplication.API.UnsafeOkHttpClient;
 import com.example.myapplication.API.WebServiceAPI;
 import com.example.myapplication.R;
 import com.example.myapplication.adapters.ContactsAdapter;
 import com.example.myapplication.entities.Contact;
 import com.example.myapplication.utils.DataSingleton;
-import com.example.myapplication.utils.MyApplication;
+import com.example.myapplication.utils.RetrofitSingleton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ContactsListActivity extends AppCompatActivity implements ContactsDialog.DialogListener {
@@ -89,6 +86,10 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
             contactsViewModel.sendToken();
         });
         settings = findViewById(R.id.settingsButton);
+        settings.setOnClickListener(v -> {
+            Intent i = new Intent(ContactsListActivity.this, SettingsActivity2.class);
+            startActivity(i);
+        });
         recyclerView = findViewById(R.id.contactsList);
         contactsAdapter = new ContactsAdapter(this);
         recyclerView.setAdapter(contactsAdapter);
@@ -147,12 +148,8 @@ public class ContactsListActivity extends AppCompatActivity implements ContactsD
     public void logout() {
         data.setUser(null);
         data.setToken(null);
-        OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(MyApplication.getContext().getString(R.string.BaseUrlNoAPI))
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        //OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
+        Retrofit retrofit = RetrofitSingleton.getInstance();
         WebServiceAPI webServiceAPI = retrofit.create(WebServiceAPI.class);
         Call<Void> call = webServiceAPI.logout();
         call.enqueue(new Callback<Void>() {

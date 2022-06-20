@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
 
     DataSingleton data = DataSingleton.getInstance();
     // buttons
-    Button bRegister;
+    Button bLogin;
 
     // text fields
     EditText etUsername, etPassword;
@@ -49,14 +50,18 @@ public class LoginActivity extends AppCompatActivity {
 
         // validations
         // register buttons with their proper IDs.
-        bRegister = findViewById(R.id.sendButton);
-
+        bLogin = findViewById(R.id.sendButton);
+        ImageButton settings = findViewById(R.id.loginSettings);
+        settings.setOnClickListener(v -> {
+            Intent i = new Intent(LoginActivity.this, SettingsActivity2.class);
+            startActivity(i);
+        });
         // register all the EditText fields with their IDs.
         etUsername = findViewById(R.id.inputUsername);
         etPassword = findViewById(R.id.inputPassword);
 
         // handle the PROCEED button
-        bRegister.setOnClickListener(new View.OnClickListener() {
+        bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

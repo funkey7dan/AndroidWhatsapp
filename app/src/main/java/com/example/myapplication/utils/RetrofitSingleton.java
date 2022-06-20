@@ -1,5 +1,8 @@
 package com.example.myapplication.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.example.myapplication.API.UnsafeOkHttpClient;
 import com.example.myapplication.R;
 
@@ -12,17 +15,35 @@ public class RetrofitSingleton {
     private static OkHttpClient okHttpClient;
 
 
+
     public static Retrofit getInstance() {
         if (retrofit == null)
         {
+            Context context = MyApplication.getContext();
             okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
+            SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
             retrofit = new Retrofit.Builder()
-                    .baseUrl(MyApplication.getContext().getString(R.string.BaseUrl))
+                    .baseUrl(preferences.getString("server", context.getString(R.string.BaseUrl)))
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
         }
         return retrofit;
+    }
+
+    public static void setBaseUrl(String newUrl) {
+        try {
+            Context context = MyApplication.getContext();
+            okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
+            SharedPreferences preferences = context.getSharedPreferences(context.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(newUrl)
+                    .client(okHttpClient)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

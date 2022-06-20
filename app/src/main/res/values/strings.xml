@@ -23,6 +23,10 @@
     <string name="_12_34">12:34</string>
     <string name="channel_name">Messages</string>
     <string name="channel_description">Messages received</string>
+    <string name="Settings">Settings</string>
+    <string name="server_address">Server Address</string>
+    <string name="preference_file_key">server_address</string>
+    <string name="save">Save</string>
     <string-array name="spinner_array">
         <item>Settings</item>
         <item>Logout</item>

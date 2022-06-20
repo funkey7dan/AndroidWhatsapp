@@ -7,8 +7,25 @@
     android:background="@drawable/gradient_background"
     tools:context=".activities.LoginActivity">
 
+    <ImageButton
+        android:id="@+id/loginSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="50"
+        android:background="@android:color/transparent"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.958"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintVertical_bias="0.022"
+        app:srcCompat="@drawable/ic_baseline_settings_24" />
+
     <TextView
-        android:id="@+id/register"
+        android:id="@+id/settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-light"
@@ -40,7 +57,7 @@
         android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/register" />
+        app:layout_constraintTop_toBottomOf="@+id/settings" />
 
     <EditText
         android:id="@+id/inputPassword"
