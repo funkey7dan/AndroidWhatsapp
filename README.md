@@ -1,12 +1,45 @@
 
-# Android app client - Chats App
+# Android app client - Chats App (DTWchats - Daniel and Tomer web chats)
 
 ## Requirments
+Android minimum SDK 21, and target SDK 32
+Gradle dependencies as seen in build.gradle:
+    'com.squareup.okhttp3:okhttp:3.14.9'
+    'com.squareup.retrofit2:retrofit:2.9.0'
+    'com.squareup.retrofit2:converter-gson:2.5.0'
+    'com.google.code.gson:gson:2.9.0'
+    'androidx.appcompat:appcompat:1.4.2'
+    'com.google.android.material:material:1.6.1'
+    'androidx.constraintlayout:constraintlayout:2.1.4'
+    'androidx.room:room-common:2.4.2'
+    'androidx.room:room-runtime:2.4.2'
+    platform('com.google.firebase:firebase-bom:30.1.0')
+    'com.google.firebase:firebase-messaging'
+    'com.google.firebase:firebase-core'
+    'androidx.navigation:navigation-fragment:2.4.2'
+    'androidx.navigation:navigation-ui:2.4.2'
+    'junit:junit:4.13.2'
+    'androidx.test.ext:junit:1.1.3'
+    'androidx.test.espresso:espresso-core:3.4.0'
+    'androidx.room:room-compiler:2.4.2'
+
 
 ## General
-- This is the first part out of four in the project for _Advanced Programming 2_ course at Bar Ilan University.
-- This implementation has no data base at the present state, but instead uses **"Hard-coded" arrays** (Implemented using React contexts, and JSON objects).
+- This is the third and last part out of three in the project for _Advanced Programming 2_ course at Bar Ilan University.
+- In this part we implemented an android client for our chat app.
+- We added an SQL database to the server from the 2nd part to manage the data better.
+- The app uses firebase pushes to transmit the messages in real time.
+- We also show notifications from the app when a new message is received(Also using Firebase).
 - Authors: **Daniel Bronfman** (ID: 315901173) & **Tomer Pardilov** (ID: 316163922).
+
+## Logic
+We implemented **four main activities**:
+- **Login**: The user is asked to insert username and password, both are required. There is an option to transfer to the registration page.
+- **Registration**: The user is asked to insert username, nickname, password.
+- **Contacts list**: Here we can see user's contacts list and the last messages from the contacts. There is a settings button, which allows the user to change the server address.
+- **Chat**: Chat with a selected contact. Gets updated in real time when a message is sent.
+The data is saved to the local SQLite storage, Room and are accessed vid DAO's. The data is regularily updated from the servers database using the REST API.
+
 
 ## In Action
 Registration and trying to register with existing user:
@@ -58,20 +91,9 @@ And messages are being sent:
 <img src="https://user-images.githubusercontent.com/72495653/174653306-5372df11-e973-459a-a5fb-dfaab86c1502.gif"
      width="90%" height="90%"></img>
 
-## Logic
-We implemented **three main pages**:
-- **Login page**: The user is asked to insert username and password, both are required.
-- **Registration page**: The user is asked to insert username, nickname, password and image. All are required and are validated againt an alphanumeric pattern.
-- **Chats page**: Here we can see user's contacts list and the conversations he has with them.
 
 
-
-## Instructions for using the app
-
-### Register
-
-### Chats page
-
-### Input Support
 
 ## Technologies Used
+Android
+Firebase Cloud Messaging
