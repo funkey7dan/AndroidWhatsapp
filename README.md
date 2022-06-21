@@ -2,6 +2,21 @@
 # Android app client - Chats App (DTWchats - Daniel and Tomer web chats)
 
 **THIS APP IS INTENDED TO WORK WITH https://github.com/TomerPardi/WebAPI/tree/DB_Branch1 VERSION OF THE SERVER**
+
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#general">General</a>
+        <li><a href="#logic">Logic</a></li>
+    </li>
+        <li><a href="#in-action">Demonstration</a></li>
+        <li><a href="#requirements">Requirements</a></li>
+    <li><a href="#technologies-used">Built With</a></li>
+  </ol>
+</details>
+
 ## General
 - This is the third and last part out of three in the project for _Advanced Programming 2_ course at Bar Ilan University.
 - In this part we implemented an android client for our chat app.
