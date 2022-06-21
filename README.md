@@ -72,6 +72,7 @@ And messages are being sent:
 
 ## Requirements
 Android minimum SDK 21, and target SDK 32
+
 Gradle dependencies as seen in build.gradle:
     'com.squareup.okhttp3:okhttp:3.14.9'
     'com.squareup.retrofit2:retrofit:2.9.0'
@@ -94,4 +95,5 @@ Gradle dependencies as seen in build.gradle:
 
 ## Technologies Used
 Android
+
 Firebase Cloud Messaging
