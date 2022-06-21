@@ -1,7 +1,7 @@
 
 # Android app client - Chats App (DTWchats - Daniel and Tomer web chats)
 
-**THIS APP IS INTENDED TO WORK WITH https://github.com/TomerPardi/WebAPI/tree/DB_Branch1 VERSION OF THE SERVER**
+**THIS APP IS INTENDED TO WORK WITH https://github.com/TomerPardi/WebAPI/tree/DB_Branch1 VERSION OF THE SERVER (there we have the DB implementation also, with the react app); PLEASE READ THE README THERE ALSO**
 
 <!-- TABLE OF CONTENTS -->
 <details>
