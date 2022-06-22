@@ -109,6 +109,6 @@ Gradle dependencies as seen in build.gradle:
     'androidx.room:room-compiler:2.4.2'
 
 ## Technologies Used
-Android
-
-Firebase Cloud Messaging
+- Android
+- Firebase Cloud Messaging
+- Entity Framework 6
