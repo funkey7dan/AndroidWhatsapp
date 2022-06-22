@@ -1,7 +1,10 @@
 
 # Android app client - Chats App (DTWchats - Daniel and Tomer web chats)
 
-**THIS APP IS INTENDED TO WORK WITH https://github.com/TomerPardi/WebAPI/tree/DB_Branch1 VERSION OF THE SERVER (there we have the DB implementation also, with the react app); PLEASE READ THE README THERE ALSO**
+## Important:
+- **THIS APP IS INTENDED TO WORK WITH https://github.com/TomerPardi/WebAPI/tree/DB_Branch1 VERSION OF THE SERVER (there we have the DB implementation also, with the react app); PLEASE READ THE README THERE ALSO**
+- We have a version that works with the Planet server under Planet_branch, and with server branch: https://github.com/TomerPardi/WebAPI/tree/Planet_branch you can see it in action below.
+
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -11,7 +14,8 @@
       <a href="#general">General</a>
         <li><a href="#logic">Logic</a></li>
     </li>
-        <li><a href="#in-action">Demonstration</a></li>
+        <li><a href="#in-action-local">Demonstration local</a></li>
+        <li><a href="#in-action-on-planet">Demonstration on planet</a></li>
         <li><a href="#requirements">Requirements</a></li>
     <li><a href="#technologies-used">Built With</a></li>
   </ol>
@@ -34,7 +38,7 @@ We implemented **four main activities**:
 The data is saved to the local SQLite storage, Room and are accessed vid DAO's. The data is regularily updated from the servers database using the REST API.
 
 
-## In Action
+## In Action local
 Registration and trying to register with existing user:
 
 <img src="https://user-images.githubusercontent.com/72495653/174652685-67a32d2a-c0a5-4ac3-a99e-48e1b90633cf.gif"
@@ -83,6 +87,31 @@ And messages are being sent:
 
 <img src="https://user-images.githubusercontent.com/72495653/174653306-5372df11-e973-459a-a5fb-dfaab86c1502.gif"
      width="90%" height="90%"></img>
+
+## In Action on planet:
+
+We created a local ssh tunnel:
+
+![ssh](https://user-images.githubusercontent.com/72495653/175032691-8fdfe0d3-d155-4e6a-88ee-eb90abe7ef65.jpg)
+
+And installed ngrok to run a remote tunnel:
+
+![ngrok](https://user-images.githubusercontent.com/72495653/175032803-2b836e19-ef02-43a9-9a80-62b2f38f0a8a.jpg)
+
+You change the server to the address of the ngrock proxy:
+
+![change_server](https://user-images.githubusercontent.com/72495653/175032915-37e2b958-ad88-421b-86f0-006d157f3218.gif)
+
+And you can add a user:
+
+![add_user_remote](https://user-images.githubusercontent.com/72495653/175032959-ec2029dd-dbd3-4584-8f2a-773f947bddd9.gif)
+
+
+And send and receive messages:
+
+![message_remote](https://user-images.githubusercontent.com/72495653/175032990-d15c5f22-799f-460a-bae2-e848ea3218d7.gif)
+
+
 
 
 ## Requirements
