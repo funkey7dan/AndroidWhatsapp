@@ -141,3 +141,6 @@ Gradle dependencies as seen in build.gradle:
 - Android
 - Firebase Cloud Messaging
 - Entity Framework 6
+- SQL
+- MariaDB
+- ngrok
