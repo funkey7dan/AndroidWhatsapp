@@ -106,13 +106,19 @@ public class ContactsAPI {
     public void inviteContact(Contact contact) {
         DataSingleton data = DataSingleton.getInstance();
         OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-        String host = contact.getServer().split(":")[0];
+        String host = contact.getServer();
         if (Objects.equals(host, "localhost")) {
             host = "10.0.2.2";
         }
-        String port = contact.getServer().split(":")[1];
-        URL url = new HttpUrl.Builder().scheme("https").host(host).port
-                (Integer.parseInt(port)).addPathSegments("api/").build().url();
+        URL url;
+        try {
+            host = contact.getServer().split(":")[0];
+            String port = contact.getServer().split(":")[1];
+            url = new HttpUrl.Builder().scheme("https").host(host).port
+                    (Integer.parseInt(port)).addPathSegments("api/").build().url();
+        } catch (Exception e) {
+            url = new HttpUrl.Builder().scheme("https").host(host).addPathSegments("api/").build().url();
+        }
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .client(okHttpClient)
