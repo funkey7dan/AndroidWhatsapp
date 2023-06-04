@@ -27,7 +27,7 @@
 - We added an SQL database to the server from the 2nd part to manage the data better.
 - The app uses firebase pushes to transmit the messages in real time.
 - We also show notifications from the app when a new message is received(Also using Firebase).
-- Authors: **Daniel Bronfman** (ID: 315901173) & **Tomer Pardilov** (ID: 316163922).
+- Authors: **Daniel Bronfman** & **Tomer Pardilov**
 
 ## Logic
 We implemented **four main activities**:
